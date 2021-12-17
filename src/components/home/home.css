@@ -1,0 +1,11 @@
+.home-wrapper {
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.home-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 10px;
+}
