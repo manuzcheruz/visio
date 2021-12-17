@@ -1,12 +1,17 @@
 import React from 'react';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import './App.css';
 import Search from './components/search/Search';
 
 function App() {
   return (
     <div className="App">
-      <h1>working!!</h1>
-      <Search />
+      <BrowserRouter>
+        <Switch>
+          <Route path='/search' component={Search} />
+          <Route path='/' />
+        </Switch>
+      </BrowserRouter>
     </div>
   );
 }
