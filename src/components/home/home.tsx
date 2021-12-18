@@ -5,6 +5,7 @@ import { selectedSeries } from '../../store/actions';
 import Card from "../card/card";
 
 import './home.css';
+import { Link } from "react-router-dom";
 
 /**
  * Renders a list of the tv series that can be sorted
@@ -36,7 +37,7 @@ function Home(props: any) {
         props.onSelectSeries(item);
     }
 
-    console.log(series);
+    // console.log(series);
 
     return (
         <div className="home-wrapper">
@@ -48,7 +49,7 @@ function Home(props: any) {
             :
             <div className="home-cards">
                 {series && series.map((el: any, i) => {
-                    return <Card {...el} onClick={() => selectSeriesHandler(el)} key={i} />
+                    return <Link to={`/series/${el.id}`} onClick={() => selectSeriesHandler(el)} key={i}><Card {...el} /></Link>
                 })}
             </div>
             }
