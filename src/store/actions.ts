@@ -6,3 +6,10 @@ export const selectedSeries = (data: any) => {
         data: data
     }
 }
+
+export const favourites = (data: any) => {
+    return {
+        type: actions.ADD_TO_FAVOURITES,
+        data: data
+    }
+}
