@@ -19,9 +19,10 @@ const reducer = (state = initialStore, action: any) => {
                 selected: action.data
             }
         case actionTypes.ADD_TO_FAVOURITES:
+            let updated = [...state.favouriteSeries, action.data];
             return {
                 ...state,
-                favouriteSeries: state.favouriteSeries.push(action.data)
+                favouriteSeries: updated
             }
         default:
             return state;

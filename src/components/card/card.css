@@ -1,7 +1,32 @@
 .card-wrapper {
     height: 250px;
     width: 300px;
-    border-radius: 15px;
-    background-color: green;
+    border-radius: 30px;
+    /* background-color: green; */
 }
 
+.card-wrapper .card-footer {
+    margin-top: -60px;
+}
+
+button {
+    width: 150px;
+    height: 40px;
+    border: none;
+    border-radius: 5px;
+}
+
+.card-wrapper .favourite {
+    height: 40px;
+    width: 40px;
+    border-radius: 5px;
+    background: white;
+    opacity: 0.5;
+    margin-top: -290px;
+    margin-left: 210px;
+    position: absolute;
+}
+
+.card-wrapper .favourite .icon {
+    margin-top: 7px;
+}
