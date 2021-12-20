@@ -1,13 +1,10 @@
 import { useEffect, useState } from "react";
 import Spinner from "../../utils/spinner/spinner";
-import { connect } from 'react-redux';
-import { selectedSeries } from '../../store/actions';
 import Card from "../card/card";
 
 import './home.css';
-import { Link } from "react-router-dom";
-import { Aux } from "../../hoc/aux";
 import Navbar from "../navbar/navbar";
+import { Aux } from '../../hoc/aux';
 
 interface Image {
     original: string;
@@ -47,10 +44,6 @@ function Home(props: any) {
             })
     }, []);
 
-    const selectSeriesHandler = (item: any) => {
-        props.onSelectSeries(item);
-    }
-
     const onAscendingHandler = () => {
         let newRes = [...series];
         let sortedRes = newRes.sort((a: Item, b: Item) => a.name.localeCompare(b.name));
@@ -89,24 +82,26 @@ function Home(props: any) {
                     <button className="sort" onClick={onAscendingHandler}>Ascending</button>
                     <button className="sort" onClick={onDescendingHandler}>Descending</button>
                     <button className="cat" onClick={onCategorySet}>Categorize</button>
-                    {categories ? 
+                    {categories &&
                         <div className="cats">
                             {categories?.map((el: any, i) => {
                                 return (
                                     <Aux key={i}>
                                         <h1>{el.letter}</h1>
-                                        {el.array?.map((item: any, i: any) => {
-                                            return <Card key={i} {...item} />
-                                        })}
+                                        <div className="categ">
+                                            {el.array?.map((item: any, i: any) => {
+                                                return <Card key={i} {...item} />
+                                            })}
+                                        </div>
                                     </Aux>
                                 )
                             })}
                         </div>
-                    :
-                    series && 
+                    }
+                    {series && 
                         <div className="home-cards">
                             {series?.map((el: Item, i) => {
-                                return <Link to={`/series/${el.id}`} onClick={() => selectSeriesHandler(el)} key={i}><Card {...el} /></Link>
+                                return <Card key={i} {...el} />
                             })}
                         </div>  
                     }
@@ -117,10 +112,5 @@ function Home(props: any) {
     )
 }
 
-const mapPropsToDispatch = (dispatch: any) => {
-    return {
-        onSelectSeries: (data: any) => dispatch(selectedSeries(data))
-    }
-}
 
-export default connect(null, mapPropsToDispatch)(Home);
+export default Home;

@@ -1,11 +1,27 @@
 .home-wrapper {
-    width: 80%;
-    margin-left: 10%;
-    margin-right: 10%;
+    margin: 10px 20px;
 }
 
 .home-cards {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-gap: 10px;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 70px;
+}
+
+.cats {
+    text-align: left;
+}
+
+.categ {
+    text-align: left;
+    display: flex;
+    flex-direction: row;
+    overflow-y: hidden;
+    height: 285px;
+    gap: 30px;
+    /* justify-content: space-between; */
+}
+
+.categ::-webkit-scrollbar {
+    display: none;
 }

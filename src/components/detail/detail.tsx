@@ -12,7 +12,7 @@ function Detail(props: any) {
     return (
         <>
             <Navbar />
-            <div className="detail-wrapper" style={{backgroundImage: `url(${url})`, height: '100vh', width: 'auto', filter: 'blur(8px)', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat'}}>
+            <div className="detail-wrapper" style={{backgroundImage: `url(${url})`, height: '100vh', width: 'auto', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat'}}>
                 <div className="thumbnail-card-details">
                     <div className="thumbnail-card">
                         <img src={props.series.image.original} alt={props.series.name} height='350px' width='auto' />

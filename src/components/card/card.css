@@ -1,6 +1,6 @@
 .card-wrapper {
     height: 250px;
-    width: 300px;
+    width: auto;
     border-radius: 30px;
     /* background-color: green; */
 }
@@ -23,7 +23,7 @@ button {
     background: white;
     opacity: 0.5;
     margin-top: -290px;
-    margin-left: 210px;
+    margin-left: 170px;
     position: absolute;
 }
 

@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { connect } from 'react-redux';
-import { favourites } from '../../store/actions';
+import { favourites, selectedSeries } from '../../store/actions';
 
 import './card.css';
 import Plus from '../../assets/plus';
+import { Link } from 'react-router-dom';
+import Close from '../../assets/close';
 
 /**
  * multipurpose card for displaying individual series in any page
@@ -16,16 +18,31 @@ function Card(props: any) {
         props.addToFavourite(item);
         setFavourite(true);
     }
+
+    const selectSeriesHandler = (item: any) => {
+        props.onSelectSeries(item);
+    }
+
     return (
-        <div className="card-wrapper">
-            <div className="card-body">
-                <img src={props.image.medium} alt={props.name} height='300px' width='auto' />
-            </div>
-                <div className="favourite">
-                    <div onClick={() => onFavouriteHandler(props)} className="icon"><Plus color='black' height='25' /></div>
+        <div>
+            <div className="card-wrapper">
+                <div className="card-body">
+                    <img src={props.image.medium} alt={props.name} height='300px' width='auto' />
                 </div>
-            <div className="card-footer">
-                <button>Watch Now</button>
+                    <div className="favourite">
+                        <div onClick={() => onFavouriteHandler(props)} className="icon">
+                            {favourite ?
+                            <Close color='black' height='25' />
+                            :
+                            <Plus color='black' height='25' />
+                            }
+                        </div>
+                    </div>
+                <div className="card-footer">
+                    <Link to={`/series/${props.id}`} onClick={() => selectSeriesHandler(props)} >
+                        <button>Watch Now</button>
+                    </Link>
+                </div>
             </div>
         </div>
     )
@@ -33,6 +50,7 @@ function Card(props: any) {
 
 const dispatchToReducer = (dispatch: any) => {
     return {
+        onSelectSeries: (data: any) => dispatch(selectedSeries(data)),
         addToFavourite: (item: any) => dispatch(favourites(item))
     }
 }
