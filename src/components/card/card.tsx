@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { connect } from 'react-redux';
-import { favourites, selectedSeries } from '../../store/actions';
+import { favourites, removeFavourites, selectedSeries } from '../../store/actions';
 
 import './card.css';
 import Plus from '../../assets/plus';
 import { Link } from 'react-router-dom';
 import Close from '../../assets/close';
+import Test from '../../assets/images/test.jpeg';
 
 /**
  * multipurpose card for displaying individual series in any page
@@ -15,12 +16,14 @@ import Close from '../../assets/close';
 function Card(props: any) {
     const [favourite, setFavourite] = useState(false);
     const onFavouriteHandler = (item: any) => {
-        let status = false;
         if (favourite || props.favourite) {
-            status = true;
-            props.addToFavourite(item, status);
-        } else props.addToFavourite(item, status);
-        setFavourite(true);
+            props.removeFromFavourite(item);
+            setFavourite(false);
+            props.favourite = false;
+        } else {
+            props.addToFavourite(item);
+            setFavourite(true);
+        } 
     }
 
     const selectSeriesHandler = (item: any) => {
@@ -31,7 +34,7 @@ function Card(props: any) {
         <div>
             <div className="card-wrapper">
                 <div className="card-body">
-                    <img src={props.image.medium} alt={props.name} height='300px' width='auto' />
+                    <img src={props.image?.medium ? props.image.medium : Test} alt={props.name} height='300px' width='auto' />
                 </div>
                     <div className="favourite">
                         <div onClick={() => onFavouriteHandler(props)} className="icon">
@@ -55,7 +58,8 @@ function Card(props: any) {
 const dispatchToReducer = (dispatch: any) => {
     return {
         onSelectSeries: (data: any) => dispatch(selectedSeries(data)),
-        addToFavourite: (item: any, status: boolean) => dispatch(favourites(item, status))
+        addToFavourite: (item: any) => dispatch(favourites(item)),
+        removeFromFavourite: (item: any) => dispatch(removeFavourites(item))
     }
 }
 

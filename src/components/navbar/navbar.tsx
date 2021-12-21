@@ -22,9 +22,11 @@ function Navbar() {
                                 Favourites
                             </button>
                         </Link>
-                        <button className="">
-                            search
-                        </button>
+                        <Link to='/search'>
+                            <button className="">
+                                search
+                            </button>
+                        </Link>
                     </div>
                 </div>
             </div>

@@ -4,6 +4,7 @@
     margin-top: 5vh;
     display: flex;
     justify-content: space-between;
+    margin-top: 0px;
 }
 
 .navbar-wrapper .name {

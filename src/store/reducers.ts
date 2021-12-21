@@ -19,15 +19,17 @@ const reducer = (state = initialStore, action: any) => {
                 selected: action.data
             }
         case actionTypes.ADD_TO_FAVOURITES:
-            let updated: any[];
-            if (action.data.status) {
-                updated = [...state.favouriteSeries, action.data.item]; //add
-            } else {
-                updated = state.favouriteSeries.filter(el => el !== action.data.item); //remove
-            }
+            let updated = [...state.favouriteSeries, action.data]; 
             return {
                 ...state,
                 favouriteSeries: updated
+            }
+
+        case actionTypes.REMOVE_FROM_FAVOURITES:
+            let updatedAfterFilter = state.favouriteSeries.filter(el => el !== action.data);
+            return {
+                ...state,
+                favouriteSeries: updatedAfterFilter
             }
         default:
             return state;

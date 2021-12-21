@@ -1,4 +1,9 @@
 import { useEffect, useState } from "react";
+import Spinner from "../../utils/spinner/spinner";
+import Card from "../card/card";
+import Navbar from "../navbar/navbar";
+
+import './search.css';
 
 /**
  * function to search tv series
@@ -6,45 +11,59 @@ import { useEffect, useState } from "react";
  */
 function Search() {
     const [searchVal, setSearchVal] = useState('');
-    const [results, setResults] = useState(['']);
+    const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     //can search onKeyup or onSubmit, will have to decide on which
 
-    useEffect(() => {
-        setLoading(true)
+    function searchApi() {
+        setLoading(true);
+        console.log(searchVal);
         const url = `https://api.tvmaze.com/search/shows?q=${searchVal}`;
         fetch(url)
             .then(res => {
                 return res.json();
             })
             .then(res => {
-                console.log(res);
+                let newArr: any[] = new Array(res);
                 setLoading(false);
-                setResults(res);
+                //@ts-ignore
+                setResults(newArr[0]);
             })
             .catch((err: ErrorEvent) => {
                 setLoading(false);
                 setError(err.message);
             })
-    }, [searchVal]);
-
-    //make a fetch request for the specific series
-    const onSearchResultSelect = (id: string) => {
-        //kama inakuja na kila kitu then hakuna haja ya kumake the request, rather use redux and route to the detail page
     }
 
-    console.log(searchVal);
+    const onSearchChange = (event: any) => {
+        setSearchVal(event.target.value);
+    }
+
+    const onSearchHandler = (event: any) => {
+        event.preventDefault();
+        searchApi();
+    }
 
     return (
         <div>
-            <form>
-                <input type="text" placeholder="search tv series..." value={searchVal} onChange={e => setSearchVal(e.target.value)} />
-                <input type="button" value="submit" />
+            <Navbar />
+            <form className="search-form" onSubmit={e => onSearchHandler(e)}>
+                <input className="input" type="text" placeholder="search tv series..." value={searchVal} onChange={e => onSearchChange(e)} />
+                <input className="btn" type="button" value="submit" />
             </form>
-            {results.map((el: any, i) => {
-                return <h1 onClick={() => onSearchResultSelect(el.id)} key={i}>{el}</h1>
-            })}
+            {loading ?
+            <Spinner />
+            :
+            error ?
+            <h5 style={{color: 'red'}}>There was an error with your search: {error}</h5>
+            :
+            <div className="results-wrapper">
+                {results.map((el: any, i) => {
+                    return <Card key={i} {...el.show} />
+                })}
+            </div>
+            }
         </div>
     )
 }

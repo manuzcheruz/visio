@@ -5,14 +5,18 @@
 } */
 
 .thumbnail-card-details {
-    background-color: black;
-    height: 350px;
-    width: 900px;
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
+    color: white;
+    font-weight: bold;
     position: absolute;
-    margin-top: 150px;
-    opacity: 0.5;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    width: 80%;
+    padding: 20px;
     text-align: left;
-    padding-left: 15px;
 
     display: grid;
     grid-template-columns: 1fr 2fr;
@@ -21,6 +25,13 @@
 .thumbnail-card-details h1 {
     color: white;
     font-size: 50px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.thumbnail-card-details h2 {
+    color: white;
+    font-size: 30px;
     margin-top: 10px;
     margin-bottom: 10px;
 }

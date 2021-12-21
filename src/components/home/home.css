@@ -4,8 +4,9 @@
 
 .home-cards {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-gap: 70px;
+    grid-template-columns: repeat(6, 1fr);
+    /* grid-gap: 70px; */
+    row-gap: 20px;
 }
 
 .cats {
@@ -17,7 +18,7 @@
     display: flex;
     flex-direction: row;
     overflow-y: hidden;
-    height: 285px;
+    height: 320px;
     gap: 30px;
     /* justify-content: space-between; */
 }

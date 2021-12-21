@@ -25,6 +25,8 @@ function Home(props: any) {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [categories, setCategories] = useState([{}]);
+    const [toggler, setToggler] = useState(false);
+    const [sortTrigger, setSortTrigger] = useState(false);
 
     useEffect(() => {
         setLoading(true);
@@ -37,32 +39,39 @@ function Home(props: any) {
                 let sortedRes = res.sort((a: Item, b: Item) => a.name.localeCompare(b.name));
                 setLoading(false);
                 setSeries(sortedRes);
+                setSortTrigger(true);
             })
             .catch((err: ErrorEvent) => {
                 setLoading(false);
                 setError(err.message);
             })
     }, []);
-
-    const onAscendingHandler = () => {
-        let newRes = [...series];
-        let sortedRes = newRes.sort((a: Item, b: Item) => a.name.localeCompare(b.name));
-        setSeries(sortedRes);
-    }
     
-    const onDescendingHandler = () => {
-        let newRes = [...series];
-        let sortedRes = newRes.sort((a: Item, b: Item) => b.name.localeCompare(a.name));
-        setSeries(sortedRes);
+    const onSortHandler = () => {
+        if (sortTrigger) {
+            let newRes = [...series];
+            let sortedRes = newRes.sort((a: Item, b: Item) => b.name.localeCompare(a.name));
+            setSeries(sortedRes);
+        } else {
+            let newRes = [...series];
+            let sortedRes = newRes.sort((a: Item, b: Item) => a.name.localeCompare(b.name));
+            setSeries(sortedRes);
+        }
+        setSortTrigger(!sortTrigger);
     }
     
     const alphabet = 'abcdefghijklmnopqrstuvwxyz';
     const onCategorySet = () => {
+        if (toggler) {
+            setToggler(false);
+            return;
+        }
+        setToggler(true);
         //use the alphabet
         const final = [];
         for (let item of alphabet.toUpperCase()) {
             const res = series.filter((el: Item) => el.name.startsWith(item));
-            if (res) final.push({letter: item, array: res});
+            if (res.length >= 1) final.push({letter: item, array: res});
         }
 
         setCategories(final);
@@ -79,12 +88,11 @@ function Home(props: any) {
                 <h5 style={{color: 'red'}}>There was an error fetching the list: {error}</h5>
                 :
                 <>
-                    <div style={{textAlign: 'right'}}>
-                        <button className="sort" onClick={onAscendingHandler}>Ascending</button>
-                        <button className="sort" onClick={onDescendingHandler}>Descending</button>
-                        <button className="cat" onClick={onCategorySet}>Categorize</button>
+                    <div style={{textAlign: 'right', marginBottom: '15px'}}>
+                        <button style={{marginRight: '10px'}} className="sort" onClick={onSortHandler}>{sortTrigger ? 'Sort Descending' : 'Sort Ascending'}</button>
+                        <button className="cat" onClick={onCategorySet}>{toggler ? 'Uncategorize' : 'Categorize'}</button>
                     </div>
-                    {categories &&
+                    {toggler ?
                         <div className="cats">
                             {categories?.map((el: any, i) => {
                                 return (
@@ -99,8 +107,7 @@ function Home(props: any) {
                                 )
                             })}
                         </div>
-                    }
-                    {series && 
+                    :
                         <div className="home-cards">
                             {series?.map((el: Item, i) => {
                                 return <Card key={i} {...el} />

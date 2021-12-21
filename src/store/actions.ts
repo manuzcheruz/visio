@@ -7,13 +7,16 @@ export const selectedSeries = (data: any) => {
     }
 }
 
-export const favourites = (data: any, status: boolean) => {
-    const item = {
-        item: data,
-        status: status
-    }
+export const favourites = (data: any) => {
     return {
         type: actions.ADD_TO_FAVOURITES,
-        data: item
+        data: data
+    }
+}
+
+export const removeFavourites = (data: any) => {
+    return {
+        type: actions.REMOVE_FROM_FAVOURITES,
+        data: data
     }
 }
