@@ -7,9 +7,13 @@ export const selectedSeries = (data: any) => {
     }
 }
 
-export const favourites = (data: any) => {
+export const favourites = (data: any, status: boolean) => {
+    const item = {
+        item: data,
+        status: status
+    }
     return {
         type: actions.ADD_TO_FAVOURITES,
-        data: data
+        data: item
     }
 }

@@ -10,7 +10,7 @@ function Favourite(props: any) {
             <div className="fav-wrapper">
                 <div className="fav-cards">
                     {props.favourites.map((el: any, i: number) => {
-                        return <Card key={i} {...el} />
+                        return <Card key={i} {...el} favourite />
                     })}
                 </div>
             </div>

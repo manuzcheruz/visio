@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import './navbar.css';
 
 function Navbar() {
@@ -11,12 +12,16 @@ function Navbar() {
                         </h2>
                     </div>
                     <div className="links-wrapper">
-                        <button className="">
-                            Home
-                        </button>
-                        <button className="">
-                            Favourites
-                        </button>
+                        <Link to='/'>
+                            <button className="">
+                                Home
+                            </button>
+                        </Link>
+                        <Link to='/favourites'>
+                            <button className="">
+                                Favourites
+                            </button>
+                        </Link>
                         <button className="">
                             search
                         </button>

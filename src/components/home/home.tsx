@@ -79,9 +79,11 @@ function Home(props: any) {
                 <h5 style={{color: 'red'}}>There was an error fetching the list: {error}</h5>
                 :
                 <>
-                    <button className="sort" onClick={onAscendingHandler}>Ascending</button>
-                    <button className="sort" onClick={onDescendingHandler}>Descending</button>
-                    <button className="cat" onClick={onCategorySet}>Categorize</button>
+                    <div style={{textAlign: 'right'}}>
+                        <button className="sort" onClick={onAscendingHandler}>Ascending</button>
+                        <button className="sort" onClick={onDescendingHandler}>Descending</button>
+                        <button className="cat" onClick={onCategorySet}>Categorize</button>
+                    </div>
                     {categories &&
                         <div className="cats">
                             {categories?.map((el: any, i) => {

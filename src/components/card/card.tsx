@@ -15,7 +15,11 @@ import Close from '../../assets/close';
 function Card(props: any) {
     const [favourite, setFavourite] = useState(false);
     const onFavouriteHandler = (item: any) => {
-        props.addToFavourite(item);
+        let status = false;
+        if (favourite || props.favourite) {
+            status = true;
+            props.addToFavourite(item, status);
+        } else props.addToFavourite(item, status);
         setFavourite(true);
     }
 
@@ -31,7 +35,7 @@ function Card(props: any) {
                 </div>
                     <div className="favourite">
                         <div onClick={() => onFavouriteHandler(props)} className="icon">
-                            {favourite ?
+                            {favourite || props.favourite ?
                             <Close color='black' height='25' />
                             :
                             <Plus color='black' height='25' />
@@ -51,7 +55,7 @@ function Card(props: any) {
 const dispatchToReducer = (dispatch: any) => {
     return {
         onSelectSeries: (data: any) => dispatch(selectedSeries(data)),
-        addToFavourite: (item: any) => dispatch(favourites(item))
+        addToFavourite: (item: any, status: boolean) => dispatch(favourites(item, status))
     }
 }
 
