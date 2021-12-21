@@ -121,5 +121,4 @@ function Home(props: any) {
     )
 }
 
-
 export default Home;
