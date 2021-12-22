@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
+import { connect } from 'react-redux';
 import Spinner from "../../utils/spinner/spinner";
 import Card from "../card/card";
 
 import './home.css';
 import Navbar from "../navbar/navbar";
 import { Aux } from '../../hoc/aux';
+import { randomSeries } from "../../store/actions";
 
 interface Image {
     original: string;
@@ -21,7 +23,6 @@ interface Item {
  * @returns 
  */
 function Home(props: any) {
-    const [series, setSeries] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [categories, setCategories] = useState([{}]);
@@ -38,7 +39,7 @@ function Home(props: any) {
             .then(res => {
                 let sortedRes = res.sort((a: Item, b: Item) => a.name.localeCompare(b.name));
                 setLoading(false);
-                setSeries(sortedRes);
+                test(sortedRes);
                 setSortTrigger(true);
             })
             .catch((err: ErrorEvent) => {
@@ -46,16 +47,20 @@ function Home(props: any) {
                 setError(err.message);
             })
     }, []);
+
+    const test = (data: any[]) => {
+        props.onSeriesLoad(data);
+    }
     
     const onSortHandler = () => {
         if (sortTrigger) {
-            let newRes = [...series];
+            let newRes = [...props.series];
             let sortedRes = newRes.sort((a: Item, b: Item) => b.name.localeCompare(a.name));
-            setSeries(sortedRes);
+            props.onSeriesLoad(sortedRes);
         } else {
-            let newRes = [...series];
+            let newRes = [...props.series];
             let sortedRes = newRes.sort((a: Item, b: Item) => a.name.localeCompare(b.name));
-            setSeries(sortedRes);
+            props.onSeriesLoad(sortedRes);
         }
         setSortTrigger(!sortTrigger);
     }
@@ -70,7 +75,7 @@ function Home(props: any) {
         //use the alphabet
         const final = [];
         for (let item of alphabet.toUpperCase()) {
-            const res = series.filter((el: Item) => el.name.startsWith(item));
+            const res = props.series.filter((el: Item) => el.name.startsWith(item));
             if (res.length >= 1) final.push({letter: item, array: res});
         }
 
@@ -109,7 +114,7 @@ function Home(props: any) {
                         </div>
                     :
                         <div className="home-cards">
-                            {series?.map((el: Item, i) => {
+                            {props.series?.map((el: Item, i: number) => {
                                 return <Card key={i} {...el} />
                             })}
                         </div>  
@@ -121,4 +126,16 @@ function Home(props: any) {
     )
 }
 
-export default Home;
+const mapStateToProps = (state: any) => {
+    return {
+        series: state.randomSeries
+    }
+}
+
+const dispatchToReducer = (dispatch: any) => {
+    return {
+        onSeriesLoad: (data: any[]) => dispatch(randomSeries(data))
+    }
+}
+
+export default connect(mapStateToProps, dispatchToReducer)(Home);

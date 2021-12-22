@@ -1,5 +1,12 @@
 import * as actions from './actionTypes';
 
+export const randomSeries = (data: any[]) => {
+    return {
+        type: actions.RANDOM_TV_SERIES,
+        data: data
+    }
+}
+
 export const selectedSeries = (data: any) => {
     return {
         type: actions.SELECTED_SEARCH_RESULT,

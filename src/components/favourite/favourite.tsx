@@ -13,6 +13,7 @@ function Favourite(props: any) {
                         return <Card key={i} {...el} favourite />
                     })}
                 </div>
+                { props.favourites.length < 1 && <h4>No favourites yet, go to home or search to add some</h4>}
             </div>
         </>
     )
