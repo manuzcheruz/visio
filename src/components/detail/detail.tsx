@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import Series from '../../interfaces/series';
 import Navbar from '../navbar/navbar';
 import './detail.css';
 
@@ -7,7 +8,8 @@ import './detail.css';
  * @returns 
  */
 function Detail(props: any) {
-    const url: string = props.series.image.original;
+    const series: Series = props.series;
+    const url: string = series.image.original;
     return (
         <>
             <Navbar />
@@ -15,13 +17,15 @@ function Detail(props: any) {
             </div>
             <div className="thumbnail-card-details">
                 <div className="thumbnail-card">
-                    <img src={props.series.image.original} alt={props.series.name} />
+                    <img src={series.image.original} alt={props.series.name} />
                 </div>
                 <div>
-                    <h1>{props.series.name}</h1>
-                    <h2>{props.series.rating?.average}</h2>
-                    <h2>{props.series.network.name}</h2>
-                    <h2>{props.series.status}</h2>
+                    <h1>{series.name}</h1>
+                    <h2>{series.rating?.average}</h2>
+                    <h2>{series.network.name}</h2>
+                    <h2>{series.status}</h2>
+                    <h2>{series.premiered}</h2>
+                    {/* <div dangerouslySetInnerHTML={{__html: series.summary.slice(0, 50)}}></div> */}
                 </div>
             </div>
         </>

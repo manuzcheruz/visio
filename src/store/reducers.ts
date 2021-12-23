@@ -1,4 +1,5 @@
 // import { Action } from "redux";
+import Series from '../interfaces/series';
 import * as actionTypes from './actionTypes';
 
 interface InitialState {
@@ -13,11 +14,16 @@ const initialStore: InitialState = {
     randomSeries: []
 }
 
+/**
+ * manages events relating to state
+ * @param state 
+ * @param action 
+ * @returns 
+ */
 const reducer = (state = initialStore, action: any) => {
     switch (action.type) {
         case actionTypes.RANDOM_TV_SERIES:
-            //filter out the favourite series here first
-            let final: any[] = [];
+            let final: Series[] = [];
             if (state.favouriteSeries.length >= 1) {
                 for (let item of state.favouriteSeries) {
                     final = action.data.filter((el: any) => el.id !== item.id);
@@ -28,9 +34,10 @@ const reducer = (state = initialStore, action: any) => {
                 randomSeries: final
             }
         case actionTypes.SELECTED_SEARCH_RESULT: 
+            const data: Series = action.data;
             return {
                 ...state,
-                selected: action.data
+                selected: data
             }
         case actionTypes.ADD_TO_FAVOURITES:
             let checker = state.favouriteSeries.some(el => el.id === action.data.id);

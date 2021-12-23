@@ -7,15 +7,11 @@ import './home.css';
 import Navbar from "../navbar/navbar";
 import { Aux } from '../../hoc/aux';
 import { randomSeries } from "../../store/actions";
+import Series from "../../interfaces/series";
 
-interface Image {
-    original: string;
-    medium: string;
-}
-interface Item {
-    name: string;
-    image: Image;
-    id: string;
+interface Category {
+    letter: string;
+    array: Series[];
 }
 
 /**
@@ -25,7 +21,7 @@ interface Item {
 function Home(props: any) {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
-    const [categories, setCategories] = useState([{}]);
+    const [categories, setCategories] = useState([{letter: '', array: []}]);
     const [toggler, setToggler] = useState(false);
     const [sortTrigger, setSortTrigger] = useState(false);
     let [pageNum, setPageNum] = useState(2);
@@ -37,8 +33,8 @@ function Home(props: any) {
             .then(res => {
                 return res.json();
             })
-            .then(res => {
-                let sortedRes = res.sort((a: Item, b: Item) => a.name.localeCompare(b.name));
+            .then((res: Series[]) => {
+                let sortedRes = res.sort((a: Series, b: Series) => a.name.localeCompare(b.name));
                 setLoading(false);
                 test(sortedRes);
                 setSortTrigger(true);
@@ -55,9 +51,9 @@ function Home(props: any) {
             .then(res => {
                 return res.json();
             })
-            .then(res => {
+            .then((res: Series[]) => {
                 const total = [...props.series, ...res];
-                let sortedRes = total.sort((a: Item, b: Item) => a.name.localeCompare(b.name));
+                let sortedRes = total.sort((a: Series, b: Series) => a.name.localeCompare(b.name));
                 setLoading(false);
                 test(sortedRes);
                 setSortTrigger(true);
@@ -73,18 +69,18 @@ function Home(props: any) {
         setPageNum(pageNum++);
     }
 
-    const test = (data: any[]) => {
+    const test = (data: Series[]) => {
         props.onSeriesLoad(data);
     }
     
     const onSortHandler = () => {
         if (sortTrigger) {
-            let newRes = [...props.series];
-            let sortedRes = newRes.sort((a: Item, b: Item) => b.name.localeCompare(a.name));
+            let newRes: Series[] = [...props.series];
+            let sortedRes = newRes.sort((a: Series, b: Series) => b.name.localeCompare(a.name));
             props.onSeriesLoad(sortedRes);
         } else {
-            let newRes = [...props.series];
-            let sortedRes = newRes.sort((a: Item, b: Item) => a.name.localeCompare(b.name));
+            let newRes: Series[] = [...props.series];
+            let sortedRes = newRes.sort((a: Series, b: Series) => a.name.localeCompare(b.name));
             props.onSeriesLoad(sortedRes);
         }
         setSortTrigger(!sortTrigger);
@@ -97,10 +93,9 @@ function Home(props: any) {
             return;
         }
         setToggler(true);
-        //use the alphabet
         const final = [];
         for (let item of alphabet.toUpperCase()) {
-            const res = props.series.filter((el: Item) => el.name.startsWith(item));
+            const res = props.series.filter((el: Series) => el.name.startsWith(item));
             if (res.length >= 1) final.push({letter: item, array: res});
         }
 
@@ -124,7 +119,7 @@ function Home(props: any) {
                     </div>
                     {toggler ?
                         <div className="cats">
-                            {categories?.map((el: any, i) => {
+                            {categories?.map((el: Category, i: number) => {
                                 return (
                                     <Aux key={i}>
                                         <h1>{el.letter}</h1>
@@ -139,7 +134,7 @@ function Home(props: any) {
                         </div>
                     :
                         <div className="home-cards">
-                            {props.series?.map((el: Item, i: number) => {
+                            {props.series?.map((el: Series, i: number) => {
                                 return <Card key={i} {...el} />
                             })}
                         </div>  
