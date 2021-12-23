@@ -1,21 +1,23 @@
 import { useState } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { favourites, removeFavourites, selectedSeries } from '../../store/actions';
 
 import './card.css';
 import Plus from '../../assets/plus';
-import { Link } from 'react-router-dom';
 import Close from '../../assets/close';
 import Test from '../../assets/images/test.jpeg';
+import Series from '../../interfaces/series';
 
 /**
  * multipurpose card for displaying individual series in any page
+ * and handles selection, adding and removing from favourites
  * @param props 
  * @returns 
  */
 function Card(props: any) {
     const [favourite, setFavourite] = useState(false);
-    const onFavouriteHandler = (item: any) => {
+    const onFavouriteHandler = (item: Series) => {
         if (favourite || props.favourite) {
             props.removeFromFavourite(item);
             setFavourite(false);
@@ -26,7 +28,7 @@ function Card(props: any) {
         } 
     }
 
-    const selectSeriesHandler = (item: any) => {
+    const selectSeriesHandler = (item: Series) => {
         props.onSelectSeries(item);
     }
 
@@ -36,15 +38,15 @@ function Card(props: any) {
                 <div className="card-body">
                     <img src={props.image?.medium ? props.image.medium : Test} alt={props.name} />
                 </div>
-                    <div className="favourite">
-                        <div onClick={() => onFavouriteHandler(props)} className="icon">
-                            {favourite || props.favourite ?
-                            <Close color='black' height='25' />
-                            :
-                            <Plus color='black' height='25' />
-                            }
-                        </div>
+                <div className="favourite">
+                    <div onClick={() => onFavouriteHandler(props)} className="icon">
+                        {favourite || props.favourite ?
+                        <Close color='black' height='25' />
+                        :
+                        <span><Plus color='black' height='25' /></span>
+                        }
                     </div>
+                </div>
                 <div className="card-footer">
                     <Link to={`/series/${props.id}`} onClick={() => selectSeriesHandler(props)} >
                         <button>Watch Now</button>
@@ -57,9 +59,9 @@ function Card(props: any) {
 
 const dispatchToReducer = (dispatch: any) => {
     return {
-        onSelectSeries: (data: any) => dispatch(selectedSeries(data)),
-        addToFavourite: (item: any) => dispatch(favourites(item)),
-        removeFromFavourite: (item: any) => dispatch(removeFavourites(item))
+        onSelectSeries: (data: Series) => dispatch(selectedSeries(data)),
+        addToFavourite: (item: Series) => dispatch(favourites(item)),
+        removeFromFavourite: (item: Series) => dispatch(removeFavourites(item))
     }
 }
 

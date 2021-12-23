@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import Series from '../../interfaces/series';
+import { InitialState } from '../../store/reducers';
 import Navbar from '../navbar/navbar';
 import './detail.css';
 
@@ -9,15 +10,15 @@ import './detail.css';
  */
 function Detail(props: any) {
     const series: Series = props.series;
-    const url: string = series.image.original;
+    const url = series.image.original;
     return (
         <>
             <Navbar />
-            <div className="detail-wrapper" style={{backgroundImage: `url(${url})`, height: '100vh', width: 'auto', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', filter: 'blur(8px)', WebkitFilter: 'blur(8px)'}}>
+            <div className="detail-wrapper" style={{backgroundImage: `url(${url})`}}>
             </div>
             <div className="thumbnail-card-details">
                 <div className="thumbnail-card">
-                    <img src={series.image.original} alt={props.series.name} />
+                    <img src={series.image.original} alt={series.name} />
                 </div>
                 <div>
                     <h1>{series.name}</h1>
@@ -32,7 +33,7 @@ function Detail(props: any) {
     )
 }
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: InitialState) => {
     return {
         series: state.selected
     }

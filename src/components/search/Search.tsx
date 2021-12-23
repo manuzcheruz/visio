@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
+import Series from "../../interfaces/series";
 import Spinner from "../../utils/spinner/spinner";
 import Card from "../card/card";
 import Navbar from "../navbar/navbar";
@@ -14,11 +15,12 @@ function Search() {
     const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
-    //can search onKeyup or onSubmit, will have to decide on which
 
+    /**
+     * make a request based on the search input value
+     */
     function searchApi() {
         setLoading(true);
-        console.log(searchVal);
         const url = `https://api.tvmaze.com/search/shows?q=${searchVal}`;
         fetch(url)
             .then(res => {
@@ -40,7 +42,7 @@ function Search() {
         setSearchVal(event.target.value);
     }
 
-    const onSearchHandler = (event: any) => {
+    const onSearchHandler = (event: FormEvent) => {
         event.preventDefault();
         searchApi();
     }
@@ -59,7 +61,7 @@ function Search() {
             <h5 style={{color: 'red'}}>There was an error with your search: {error}</h5>
             :
             <div className="results-wrapper">
-                {results.map((el: any, i) => {
+                {results.map((el: {show: Series[]}, i) => {
                     return <Card key={i} {...el.show} />
                 })}
             </div>

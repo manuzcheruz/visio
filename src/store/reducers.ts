@@ -2,10 +2,10 @@
 import Series from '../interfaces/series';
 import * as actionTypes from './actionTypes';
 
-interface InitialState {
+export interface InitialState {
     selected: any;
-    favouriteSeries: any[];
-    randomSeries: any[];
+    favouriteSeries: Series[];
+    randomSeries: Series[];
 }
 
 const initialStore: InitialState = {
@@ -33,16 +33,16 @@ const reducer = (state = initialStore, action: any) => {
                 ...state,
                 randomSeries: final
             }
-        case actionTypes.SELECTED_SEARCH_RESULT: 
+        case actionTypes.SELECTED_SERIES: 
             const data: Series = action.data;
             return {
                 ...state,
                 selected: data
             }
         case actionTypes.ADD_TO_FAVOURITES:
-            let checker = state.favouriteSeries.some(el => el.id === action.data.id);
-            let updated: any[];
-            if (checker) {
+            let checkIfPresent = state.favouriteSeries.some(el => el.id === action.data.id);
+            let updated: Series[];
+            if (checkIfPresent) {
                 updated = [...state.favouriteSeries]; 
             } else updated = [...state.favouriteSeries, action.data];
             return {
@@ -50,7 +50,7 @@ const reducer = (state = initialStore, action: any) => {
                 favouriteSeries: updated
             }
         case actionTypes.REMOVE_FROM_FAVOURITES:
-            let updatedAfterFilter = state.favouriteSeries.filter(el => el.id !== action.data.id);
+            let updatedAfterFilter: Series[] = state.favouriteSeries.filter(el => el.id !== action.data.id);
             return {
                 ...state,
                 favouriteSeries: updatedAfterFilter

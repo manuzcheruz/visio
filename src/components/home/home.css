@@ -41,6 +41,11 @@
     border-radius: 5px;
 }
 
+.btn-wrapper .sort:hover {
+    color: white;
+    background-color: green;
+}
+
 .btn-wrapper .cat {
     margin-right: 10px;
     width: 150px;
@@ -49,11 +54,16 @@
     border-radius: 5px;
 }
 
+.btn-wrapper .cat:hover {
+    color: white;
+    background-color: green;
+}
+
 .load-more {
     width: 200px;
     border-radius: 5px;
     height: 40px;
-    background: green;
+    background-color: green;
     color: white;
     border: none;
     margin-top: 20px;

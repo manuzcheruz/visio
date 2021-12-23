@@ -36,7 +36,7 @@ function Home(props: any) {
             .then((res: Series[]) => {
                 let sortedRes = res.sort((a: Series, b: Series) => a.name.localeCompare(b.name));
                 setLoading(false);
-                test(sortedRes);
+                storeSeries(sortedRes);
                 setSortTrigger(true);
             })
             .catch((err: ErrorEvent) => {
@@ -55,7 +55,7 @@ function Home(props: any) {
                 const total = [...props.series, ...res];
                 let sortedRes = total.sort((a: Series, b: Series) => a.name.localeCompare(b.name));
                 setLoading(false);
-                test(sortedRes);
+                storeSeries(sortedRes);
                 setSortTrigger(true);
             })
             .catch((err: ErrorEvent) => {
@@ -69,7 +69,7 @@ function Home(props: any) {
         setPageNum(pageNum++);
     }
 
-    const test = (data: Series[]) => {
+    const storeSeries = (data: Series[]) => {
         props.onSeriesLoad(data);
     }
     

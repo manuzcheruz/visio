@@ -3,6 +3,10 @@ import { Link } from 'react-router-dom';
 import Menu from '../../assets/menu';
 import './navbar.css';
 
+/**
+ * Navigation bar
+ * @returns 
+ */
 function Navbar() {
     const [display, setDisplay] = useState('block');
     const deviceWidth = window.innerHeight;

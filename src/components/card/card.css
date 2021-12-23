@@ -23,6 +23,11 @@
     border-radius: 5px;
 }
 
+.card-footer button:hover {
+    color: white;
+    background-color: green;
+}
+
 .card-wrapper .favourite {
     height: 40px;
     width: 40px;
@@ -36,6 +41,10 @@
 
 .card-wrapper .favourite .icon {
     margin-top: 7px;
+}
+
+.card-wrapper .favourite:hover {
+    opacity: 0.8;
 }
 
 @media screen and (max-width: 480px){

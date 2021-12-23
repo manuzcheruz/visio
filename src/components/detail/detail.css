@@ -1,3 +1,13 @@
+.detail-wrapper {
+    height: 100vh;
+    width: auto;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: blur(8px);
+    -webkit-filter: blur(8px);
+}
+
 .thumbnail-card-details {
     color: white;
     font-weight: bold;
