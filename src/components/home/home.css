@@ -1,11 +1,12 @@
 .home-wrapper {
     margin: 10px 20px;
+    /* width: 90vw; */
 }
 
 .home-cards {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    /* grid-gap: 70px; */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
     row-gap: 20px;
 }
 
@@ -25,4 +26,44 @@
 
 .categ::-webkit-scrollbar {
     display: none;
+}
+
+.btn-wrapper {
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.btn-wrapper .sort {
+    margin-right: 10px;
+    width: 150px;
+    height: 40px;
+    border: none;
+    border-radius: 5px;
+}
+
+.btn-wrapper .cat {
+    margin-right: 10px;
+    width: 150px;
+    height: 40px;
+    border: none;
+    border-radius: 5px;
+}
+
+.load-more {
+    width: 200px;
+    border-radius: 5px;
+    height: 40px;
+    background: green;
+    color: white;
+    border: none;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+@media screen and (max-width: 480px){
+    
+}
+
+@media screen and (min-width: 481px) and (max-width: 768px){
+    
 }

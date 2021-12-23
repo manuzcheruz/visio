@@ -3,8 +3,11 @@
     width: 220px;
     position: relative;
     overflow: hidden;
-    /* border-radius: 30px; */
-    /* background-color: green; */
+}
+
+.card-wrapper .card-body img {
+    height: 300px;
+    width: auto;
 }
 
 .card-wrapper .card-footer {
@@ -13,7 +16,7 @@
     margin-left: 40px;
 }
 
-button {
+.card-footer button {
     width: 150px;
     height: 40px;
     border: none;
@@ -33,5 +36,8 @@ button {
 
 .card-wrapper .favourite .icon {
     margin-top: 7px;
-    /* margin-left: 9px; */
+}
+
+@media screen and (max-width: 480px){
+    
 }

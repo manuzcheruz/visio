@@ -34,7 +34,7 @@ function Card(props: any) {
         <div>
             <div className="card-wrapper">
                 <div className="card-body">
-                    <img src={props.image?.medium ? props.image.medium : Test} alt={props.name} height='300px' width='auto' />
+                    <img src={props.image?.medium ? props.image.medium : Test} alt={props.name} />
                 </div>
                     <div className="favourite">
                         <div onClick={() => onFavouriteHandler(props)} className="icon">

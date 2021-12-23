@@ -1,5 +1,6 @@
 .fav-cards {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
     row-gap: 20px;
 }

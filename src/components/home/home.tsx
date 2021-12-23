@@ -28,6 +28,7 @@ function Home(props: any) {
     const [categories, setCategories] = useState([{}]);
     const [toggler, setToggler] = useState(false);
     const [sortTrigger, setSortTrigger] = useState(false);
+    let [pageNum, setPageNum] = useState(2);
 
     useEffect(() => {
         setLoading(true);
@@ -47,6 +48,30 @@ function Home(props: any) {
                 setError(err.message);
             })
     }, []);
+
+    function loadMore(page: number) {
+        const url = `https://api.tvmaze.com/shows?page=${page}`;
+        fetch(url)
+            .then(res => {
+                return res.json();
+            })
+            .then(res => {
+                const total = [...props.series, ...res];
+                let sortedRes = total.sort((a: Item, b: Item) => a.name.localeCompare(b.name));
+                setLoading(false);
+                test(sortedRes);
+                setSortTrigger(true);
+            })
+            .catch((err: ErrorEvent) => {
+                setLoading(false);
+                setError(err.message);
+            })
+    }
+
+    const onLoadMore = () => {
+        loadMore(pageNum);
+        setPageNum(pageNum++);
+    }
 
     const test = (data: any[]) => {
         props.onSeriesLoad(data);
@@ -93,8 +118,8 @@ function Home(props: any) {
                 <h5 style={{color: 'red'}}>There was an error fetching the list: {error}</h5>
                 :
                 <>
-                    <div style={{textAlign: 'right', marginBottom: '15px'}}>
-                        <button style={{marginRight: '10px'}} className="sort" onClick={onSortHandler}>{sortTrigger ? 'Sort Descending' : 'Sort Ascending'}</button>
+                    <div className="btn-wrapper">
+                        <button className="sort" onClick={onSortHandler}>{sortTrigger ? 'Sort Descending' : 'Sort Ascending'}</button>
                         <button className="cat" onClick={onCategorySet}>{toggler ? 'Uncategorize' : 'Categorize'}</button>
                     </div>
                     {toggler ?
@@ -119,6 +144,7 @@ function Home(props: any) {
                             })}
                         </div>  
                     }
+                    <button onClick={onLoadMore} className="load-more">Load More</button>
                 </>
                 }
             </div>

@@ -20,11 +20,9 @@ const reducer = (state = initialStore, action: any) => {
             let final: any[] = [];
             if (state.favouriteSeries.length >= 1) {
                 for (let item of state.favouriteSeries) {
-                    // console.log(item);
                     final = action.data.filter((el: any) => el.id !== item.id);
-                    // console.log(final.length);
                 }
-            } else final = action.data
+            } else final = action.data;
             return {
                 ...state,
                 randomSeries: final

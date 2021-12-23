@@ -11,23 +11,44 @@
     font-weight: 600;
 }
 
-.navbar-wrapper .links-wrapper button {
+.navbar-wrapper .links-wrapper ul li {
+    list-style: none;
+    display: inline-block;
+    margin-right: 30px;
+    margin-top: 15px;
+}
+
+.navbar-wrapper .links-wrapper ul li a {
     text-decoration: none;
-    padding: 30px;
-    transition: all 0.2s ease-in-out;
-    font-size: 15px;
-    background-color: transparent;
-    outline: none;
-    border: 0px;
-    cursor: pointer;
     color: grey;
 }
 
-.navbar-wrapper .links-wrapper button:hover {
-    opacity: 1;
+.navbar-wrapper .links-wrapper ul li a:hover {
+    color: green;
 }
 
-.navbar-wrapper .links-wrapper button a {
-    text-decoration: none;
-    color: grey;
+.menu-toggler {
+    display: none;
+    margin-top: 20px;
+}
+
+@media screen and (max-width: 480px){
+    .menu-toggler {
+        display: block;
+    }
+
+    .navbar-wrapper .links-wrapper ul {
+        position: absolute;
+        top: 75px;
+        right: 0;
+        z-index: 2;
+        background: green;
+        width: 100%;
+    }
+
+    .navbar-wrapper .links-wrapper ul li {
+        display: block;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
 }

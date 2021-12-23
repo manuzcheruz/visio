@@ -1,7 +1,17 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import Menu from '../../assets/menu';
 import './navbar.css';
 
 function Navbar() {
+    const [display, setDisplay] = useState('block');
+    const deviceWidth = window.innerHeight;
+    if (deviceWidth <= 480) {
+        setDisplay('none');
+    }
+    const toggleMenu = () => {
+        setDisplay('block');
+    }
     return (
         <div className="section">
             <div className="container">
@@ -11,23 +21,26 @@ function Navbar() {
                             Visio
                         </h2>
                     </div>
-                    <div className="links-wrapper">
-                        <Link to='/'>
-                            <button className="">
-                                Home
-                            </button>
-                        </Link>
-                        <Link to='/favourites'>
-                            <button className="">
-                                Favourites
-                            </button>
-                        </Link>
-                        <Link to='/search'>
-                            <button className="">
-                                search
-                            </button>
-                        </Link>
-                    </div>
+                    <nav style={{display: `${display}`}} className="links-wrapper">
+                        <ul>
+                            <li>
+                                <Link to='/'>
+                                    Home
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to='/favourites'>
+                                        Favourites
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to='/search'>
+                                        search
+                                </Link>
+                            </li>
+                        </ul>
+                    </nav>
+                    <span className="menu-toggler" onClick={toggleMenu}><Menu height='20' /></span>
                 </div>
             </div>
         </div>

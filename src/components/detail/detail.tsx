@@ -15,7 +15,7 @@ function Detail(props: any) {
             </div>
             <div className="thumbnail-card-details">
                 <div className="thumbnail-card">
-                    <img src={props.series.image.original} alt={props.series.name} height='400px' width='auto' />
+                    <img src={props.series.image.original} alt={props.series.name} />
                 </div>
                 <div>
                     <h1>{props.series.name}</h1>
