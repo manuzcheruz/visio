@@ -1,4 +1,4 @@
-import { Icons } from "../interfaces/icons";
+import { Icons } from "../../interfaces/icons";
 
 function Plus(props: Icons) {
     return (

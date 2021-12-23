@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Menu from '../../assets/menu';
+import { Menu } from '../../assets/icons';
 import './navbar.css';
 
 /**

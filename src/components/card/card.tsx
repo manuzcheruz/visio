@@ -4,9 +4,8 @@ import { Link } from 'react-router-dom';
 import { favourites, removeFavourites, selectedSeries } from '../../store/actions';
 
 import './card.css';
-import Plus from '../../assets/plus';
-import Close from '../../assets/close';
-import Test from '../../assets/images/test.jpeg';
+import {Plus, Close} from '../../assets/icons';
+import Default from '../../assets/images/Default.jpeg';
 import Series from '../../interfaces/series';
 
 /**
@@ -16,6 +15,7 @@ import Series from '../../interfaces/series';
  * @returns 
  */
 function Card(props: any) {
+    // const series: Series = props.series;
     const [favourite, setFavourite] = useState(false);
     const onFavouriteHandler = (item: Series) => {
         if (favourite || props.favourite) {
@@ -36,7 +36,7 @@ function Card(props: any) {
         <div>
             <div className="card-wrapper">
                 <div className="card-body">
-                    <img src={props.image?.medium ? props.image.medium : Test} alt={props.name} />
+                    <img src={props.image?.medium ? props.image.medium : Default} alt={props.name} />
                 </div>
                 <div className="favourite">
                     <div onClick={() => onFavouriteHandler(props)} className="icon">

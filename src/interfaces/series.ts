@@ -1,6 +1,6 @@
 interface Media {
     original: string;
-    medium: string;
+    medium?: string;
 }
 
 interface Network {

@@ -1,19 +1,21 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import './App.css';
-import Detail from './components/detail/detail';
-import Favourite from './components/favourite/favourite';
 import Home from './components/home/home';
-import Search from './components/search/Search';
+
+import './App.css';
+import Spinner from './utils/spinner/spinner';
+const Search = React.lazy(() => import('./components/search/Search'));
+const Detail = React.lazy(() => import('./components/detail/detail'));
+const Favourite = React.lazy(() => import('./components/favourite/favourite'));
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
         <Switch>
-          <Route path='/search' component={Search} />
-          <Route path='/series/:id' component={Detail} />
-          <Route path='/favourites' component={Favourite} />
+          <Route path='/search' exact render={() => <Suspense fallback={<Spinner />}><Search /></Suspense>} />
+          <Route path='/series/:id' exact render={() => <Suspense fallback={<Spinner />}><Detail /></Suspense>} />
+          <Route path='/favourites' exact render={() => <Suspense fallback={<Spinner />}><Favourite /></Suspense>} />
           <Route path='/' component={Home} />
         </Switch>
       </BrowserRouter>

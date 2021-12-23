@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useState } from "react";
 import Series from "../../interfaces/series";
 import Spinner from "../../utils/spinner/spinner";
 import Card from "../card/card";
@@ -27,9 +27,9 @@ function Search() {
                 return res.json();
             })
             .then(res => {
-                let newArr: any[] = new Array(res);
+                let newArr: Series[] = new Array(res);
                 setLoading(false);
-                //@ts-ignore
+                // @ts-ignore
                 setResults(newArr[0]);
             })
             .catch((err: ErrorEvent) => {
@@ -52,7 +52,6 @@ function Search() {
             <Navbar />
             <form className="search-form" onSubmit={e => onSearchHandler(e)}>
                 <input className="input" type="text" placeholder="search tv series..." value={searchVal} onChange={e => onSearchChange(e)} />
-                <input className="btn" type="button" value="submit" />
             </form>
             {loading ?
             <Spinner />

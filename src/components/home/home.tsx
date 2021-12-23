@@ -8,6 +8,7 @@ import Navbar from "../navbar/navbar";
 import { Aux } from '../../hoc/aux';
 import { randomSeries } from "../../store/actions";
 import Series from "../../interfaces/series";
+import { InitialState } from "../../store/reducers";
 
 interface Category {
     letter: string;
@@ -21,10 +22,16 @@ interface Category {
 function Home(props: any) {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
-    const [categories, setCategories] = useState([{letter: '', array: []}]);
+    const [categories, setCategories] = useState([
+        {letter: '', array: [
+            {id: 0, name: '', image: {original: ''}, status: '', network: {name: ''}, premiered: ''}
+        ]}
+    ]);
     const [toggler, setToggler] = useState(false);
     const [sortTrigger, setSortTrigger] = useState(false);
     let [pageNum, setPageNum] = useState(2);
+
+    const series: Series[] = props.series;
 
     useEffect(() => {
         setLoading(true);
@@ -93,9 +100,9 @@ function Home(props: any) {
             return;
         }
         setToggler(true);
-        const final = [];
+        const final: Category[] = [];
         for (let item of alphabet.toUpperCase()) {
-            const res = props.series.filter((el: Series) => el.name.startsWith(item));
+            const res = series.filter((el: Series) => el.name.startsWith(item));
             if (res.length >= 1) final.push({letter: item, array: res});
         }
 
@@ -124,7 +131,7 @@ function Home(props: any) {
                                     <Aux key={i}>
                                         <h1>{el.letter}</h1>
                                         <div className="categ">
-                                            {el.array?.map((item: any, i: any) => {
+                                            {el.array?.map((item: Series, i: any) => {
                                                 return <Card key={i} {...item} />
                                             })}
                                         </div>
@@ -134,7 +141,7 @@ function Home(props: any) {
                         </div>
                     :
                         <div className="home-cards">
-                            {props.series?.map((el: Series, i: number) => {
+                            {series?.map((el: Series, i: number) => {
                                 return <Card key={i} {...el} />
                             })}
                         </div>  
@@ -147,7 +154,7 @@ function Home(props: any) {
     )
 }
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: InitialState) => {
     return {
         series: state.randomSeries
     }
@@ -155,7 +162,7 @@ const mapStateToProps = (state: any) => {
 
 const dispatchToReducer = (dispatch: any) => {
     return {
-        onSeriesLoad: (data: any[]) => dispatch(randomSeries(data))
+        onSeriesLoad: (data: Series[]) => dispatch(randomSeries(data))
     }
 }
 

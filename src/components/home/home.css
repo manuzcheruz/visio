@@ -1,17 +1,20 @@
-.home-wrapper {
-    margin: 10px 20px;
-    /* width: 90vw; */
-}
-
 .home-cards {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    row-gap: 20px;
+}
+
+.home-cards::after {
+    content: '';
+    flex: auto;
 }
 
 .cats {
     text-align: left;
+}
+
+.cats h1 {
+    margin-left: 10px;
 }
 
 .categ {
@@ -68,12 +71,4 @@
     border: none;
     margin-top: 20px;
     margin-bottom: 20px;
-}
-
-@media screen and (max-width: 480px){
-    
-}
-
-@media screen and (min-width: 481px) and (max-width: 768px){
-    
 }
