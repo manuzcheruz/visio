@@ -22,8 +22,8 @@
     display: flex;
     flex-direction: row;
     overflow-y: hidden;
-    height: 320px;
-    gap: 30px;
+    height: 370px;
+    gap: 20px;
     /* justify-content: space-between; */
 }
 
