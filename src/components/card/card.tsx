@@ -5,7 +5,7 @@ import { favourites, removeFavourites, selectedSeries } from '../../store/action
 
 import './card.css';
 import {Plus, Close} from '../../assets/icons';
-import Default from '../../assets/images/Default.jpeg';
+import Default from '../../assets/images/Default.png';
 import Series from '../../interfaces/series';
 
 /**
