@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { connect } from 'react-redux';
-import Spinner from "../../utils/spinner/spinner";
-import Card from "../card/card";
 
 import './home.css';
-import Navbar from "../navbar/navbar";
+import Card from "../card/card";
 import { Aux } from '../../hoc/aux';
-import { randomSeries } from "../../store/actions";
+import Navbar from "../navbar/navbar";
 import Series from "../../interfaces/series";
+import Spinner from "../../utils/spinner/spinner";
+import { randomSeries } from "../../store/actions";
 import { InitialState } from "../../store/reducers";
 
 interface Category {
@@ -27,8 +27,8 @@ function Home(props: any) {
             {id: 0, name: '', image: {original: ''}, status: '', network: {name: ''}, premiered: ''}
         ]}
     ]);
-    const [toggler, setToggler] = useState(false);
-    const [sortTrigger, setSortTrigger] = useState(false);
+    const [toggleCategories, setToggleCategories] = useState(false);
+    const [sortDirectionAsce, setSortDirectionAsce] = useState(false);
     let [pageNum, setPageNum] = useState(2);
     const [loadingMore, setLoadingMore] = useState(false);
     const [errorOnMore, setErrorOnMore] = useState('');
@@ -36,46 +36,47 @@ function Home(props: any) {
     const series: Series[] = props.series;
 
     useEffect(() => {
-        setLoading(true);
-        const url = 'https://api.tvmaze.com/shows?page=1';
-        fetch(url)
-            .then(res => {
-                return res.json();
-            })
-            .then((res: Series[]) => {
-                let sortedRes = res.sort((a: Series, b: Series) => a.name.localeCompare(b.name));
-                setLoading(false);
-                storeSeries(sortedRes);
-                setSortTrigger(true);
-            })
-            .catch((err: ErrorEvent) => {
-                setLoading(false);
-                setError(err.message);
-            })
+        FetchData();
     }, []);
+ 
+    function FetchData(page?: number) {
+        if (page) {
+            setLoadingMore(true)
+        } else setLoading(true);
 
-    function loadMore(page: number) {
-        setLoadingMore(true);
-        const url = `https://api.tvmaze.com/shows?page=${page}`;
+        const url = `https://api.tvmaze.com/shows?page=${page ? page : '1'}`;
         fetch(url)
             .then(res => {
                 return res.json();
             })
             .then((res: Series[]) => {
-                const total = [...props.series, ...res];
-                let sortedRes = total.sort((a: Series, b: Series) => a.name.localeCompare(b.name));
-                setLoadingMore(false);
-                storeSeries(sortedRes);
-                setSortTrigger(true);
+                if (page) {
+                    const total = [...props.series, ...res];
+                    let sortedRes = total.sort((a: Series, b: Series) => a.name.localeCompare(b.name));
+                    setLoadingMore(false);
+                    storeSeries(sortedRes);
+                    setSortDirectionAsce(true);
+                } else {
+                    let sortedRes = res.sort((a: Series, b: Series) => a.name.localeCompare(b.name));
+                    setLoading(false);
+                    storeSeries(sortedRes);
+                    setSortDirectionAsce(true);
+                }
             })
             .catch((err: ErrorEvent) => {
-                setLoadingMore(false);
-                setErrorOnMore(err.message);
+                if (page) {
+                    setLoading(false);
+                    setError(err.message);
+                } else {
+                    setLoadingMore(false);
+                    setErrorOnMore(err.message);
+                }
             })
     }
 
+
     const onLoadMore = () => {
-        loadMore(pageNum);
+        FetchData(pageNum);
         setPageNum(pageNum++);
     }
 
@@ -84,7 +85,7 @@ function Home(props: any) {
     }
     
     const onSortHandler = () => {
-        if (sortTrigger) {
+        if (sortDirectionAsce) {
             let newRes: Series[] = [...props.series];
             let sortedRes = newRes.sort((a: Series, b: Series) => b.name.localeCompare(a.name));
             props.onSeriesLoad(sortedRes);
@@ -93,16 +94,16 @@ function Home(props: any) {
             let sortedRes = newRes.sort((a: Series, b: Series) => a.name.localeCompare(b.name));
             props.onSeriesLoad(sortedRes);
         }
-        setSortTrigger(!sortTrigger);
+        setSortDirectionAsce(!sortDirectionAsce);
     }
     
     const alphabet = 'abcdefghijklmnopqrstuvwxyz';
     const onCategorySet = () => {
-        if (toggler) {
-            setToggler(false);
+        if (toggleCategories) {
+            setToggleCategories(false);
             return;
         }
-        setToggler(true);
+        setToggleCategories(true);
         const final: Category[] = [];
         for (let item of alphabet.toUpperCase()) {
             const res = series.filter((el: Series) => el.name.startsWith(item));
@@ -124,10 +125,10 @@ function Home(props: any) {
                 :
                 <>
                     <div className="btn-wrapper">
-                        <button className="sort" onClick={onSortHandler}>{sortTrigger ? 'Sort Descending' : 'Sort Ascending'}</button>
-                        <button className="cat" onClick={onCategorySet}>{toggler ? 'Uncategorize' : 'Categorize'}</button>
+                        <button className="sort" onClick={onSortHandler}>{sortDirectionAsce ? 'Sort Descending' : 'Sort Ascending'}</button>
+                        <button className="cat" onClick={onCategorySet}>{toggleCategories ? 'Uncategorize' : 'Categorize'}</button>
                     </div>
-                    {toggler ?
+                    {toggleCategories ?
                         <div className="cats">
                             {categories?.map((el: Category, i: number) => {
                                 return (

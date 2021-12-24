@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import Series from "../../interfaces/series";
 import Spinner from "../../utils/spinner/spinner";
 import Card from "../card/card";
@@ -38,7 +38,7 @@ function Search() {
             })
     }
 
-    const onSearchChange = (event: any) => {
+    const onSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
         setSearchVal(event.target.value);
     }
 

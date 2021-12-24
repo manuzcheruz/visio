@@ -19,6 +19,7 @@
     width: 80%;
     padding: 20px;
     text-align: left;
+    background-color: rgb(0, 0, 0, 0.2);
 
     display: grid;
     grid-template-columns: 1fr 2fr;
