@@ -1,10 +1,10 @@
-.fav-cards {
+.fav-wrapper {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: center;
 }
 
-.fav-cards::after {
+.fav-wrapper::after {
     content: '';
     flex: auto;
 }

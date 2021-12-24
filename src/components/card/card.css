@@ -1,20 +1,27 @@
 .card-wrapper {
-    /* height: 300px;
-    width: 100%; */
+    width: 250px;
     position: relative;
     overflow: hidden;
     margin: 10px;
+    transition: 0.3s;
+}
+
+.card-wrapper .card-body {
+    height: 250x;
+    width: 100%;
 }
 
 .card-wrapper .card-body img {
-    height: 300px;
     width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: 0.7s ease;
 }
 
 .card-wrapper .card-footer {
     margin-top: -60px;
     position: absolute;
-    margin-left: 40px;
+    margin-left: 50px;
 }
 
 .card-footer button {
@@ -35,8 +42,8 @@
     border-radius: 5px;
     background: white;
     opacity: 0.5;
-    margin-top: -290px;
-    margin-left: 170px;
+    margin-top: -340px;
+    margin-left: 200px;
     position: absolute;
 }
 

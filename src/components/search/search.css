@@ -13,7 +13,7 @@ input:focus {
 .results-wrapper {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: center;
 }
 
 .results-wrapper::after {

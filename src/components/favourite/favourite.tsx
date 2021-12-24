@@ -16,11 +16,9 @@ function Favourite(props: any) {
         <>
             <Navbar />
             <div className="fav-wrapper">
-                <div className="fav-cards">
-                    {favourite.map((el: Series, i: number) => {
-                        return <Card key={i} {...el} favourite />
-                    })}
-                </div>
+                {favourite.map((el: Series, i: number) => {
+                    return <Card key={i} {...el} favourite />
+                })}
                 { props.favourites.length < 1 && <h4>No favourites yet, go to home or search to add some</h4>}
             </div>
         </>

@@ -30,6 +30,8 @@ function Home(props: any) {
     const [toggler, setToggler] = useState(false);
     const [sortTrigger, setSortTrigger] = useState(false);
     let [pageNum, setPageNum] = useState(2);
+    const [loadingMore, setLoadingMore] = useState(false);
+    const [errorOnMore, setErrorOnMore] = useState('');
 
     const series: Series[] = props.series;
 
@@ -53,6 +55,7 @@ function Home(props: any) {
     }, []);
 
     function loadMore(page: number) {
+        setLoadingMore(true);
         const url = `https://api.tvmaze.com/shows?page=${page}`;
         fetch(url)
             .then(res => {
@@ -61,13 +64,13 @@ function Home(props: any) {
             .then((res: Series[]) => {
                 const total = [...props.series, ...res];
                 let sortedRes = total.sort((a: Series, b: Series) => a.name.localeCompare(b.name));
-                setLoading(false);
+                setLoadingMore(false);
                 storeSeries(sortedRes);
                 setSortTrigger(true);
             })
             .catch((err: ErrorEvent) => {
-                setLoading(false);
-                setError(err.message);
+                setLoadingMore(false);
+                setErrorOnMore(err.message);
             })
     }
 
@@ -146,7 +149,14 @@ function Home(props: any) {
                             })}
                         </div>  
                     }
+                    {loadingMore ?
+                    <Spinner />
+                    :
+                    errorOnMore ?
+                    <h5 style={{color: 'red'}}>There was an error fetching the list: {error}</h5>
+                    :
                     <button onClick={onLoadMore} className="load-more">Load More</button>
+                    }
                 </>
                 }
             </div>
