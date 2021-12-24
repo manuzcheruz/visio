@@ -3,6 +3,7 @@ import Series from '../../interfaces/series';
 import { InitialState } from '../../store/reducers';
 import Navbar from '../navbar/navbar';
 import './detail.css';
+import Default from '../../assets/images/Default.png';
 
 /**
  * detail page of the series
@@ -10,7 +11,8 @@ import './detail.css';
  */
 function Detail(props: any) {
     const series: Series = props.series;
-    const url = series.image.original;
+    let url = series.image?.original;
+    if (!url) url = Default
     return (
         <>
             <Navbar />
@@ -18,12 +20,12 @@ function Detail(props: any) {
             </div>
             <div className="thumbnail-card-details">
                 <div className="thumbnail-card">
-                    <img src={series.image.original} alt={series.name} />
+                    <img src={series.image?.original ? series.image?.original : url} alt={series.name} />
                 </div>
                 <div>
                     <h1>{series.name}</h1>
                     <h2>{series.rating?.average}</h2>
-                    <h2>{series.network.name}</h2>
+                    <h2>{series.network?.name}</h2>
                     <h2>{series.status}</h2>
                     <h2>{series.premiered}</h2>
                     {/* <div dangerouslySetInnerHTML={{__html: series.summary.slice(0, 50)}}></div> */}
