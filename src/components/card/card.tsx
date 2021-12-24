@@ -15,13 +15,11 @@ import Series from '../../interfaces/series';
  * @returns 
  */
 function Card(props: any) {
-    // const series: Series = props.series;
     const [favourite, setFavourite] = useState(false);
     const onFavouriteHandler = (item: Series) => {
         if (favourite || props.favourite) {
             props.removeFromFavourite(item);
             setFavourite(false);
-            props.favourite = false;
         } else {
             props.addToFavourite(item);
             setFavourite(true);

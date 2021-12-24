@@ -21,14 +21,18 @@ const initialStore: InitialState = {
  * @returns 
  */
 const reducer = (state = initialStore, action: any) => {
-    switch (action.type) {
+    const actionType: string = action.type;
+    switch (actionType) {
         case actionTypes.RANDOM_TV_SERIES:
             let final: Series[] = [];
-            if (state.favouriteSeries.length >= 1) {
-                for (let item of state.favouriteSeries) {
-                    final = action.data.filter((el: any) => el.id !== item.id);
+            const recievedData: Series[] = action.data;
+            if (state.favouriteSeries.length) {
+                for (let item of recievedData) {
+                    if (!state.favouriteSeries.some(el => el.id === item.id)) {
+                        final.push(item);
+                    }
                 }
-            } else final = action.data;
+            } else final = recievedData;
             return {
                 ...state,
                 randomSeries: final
@@ -40,17 +44,19 @@ const reducer = (state = initialStore, action: any) => {
                 selected: data
             }
         case actionTypes.ADD_TO_FAVOURITES:
-            let checkIfPresent = state.favouriteSeries.some(el => el.id === action.data.id);
+            const recievedSeriesDataToAdd: Series = action.data;
+            let checkIfPresent = state.favouriteSeries.some(el => el.id === recievedSeriesDataToAdd.id);
             let updated: Series[];
             if (checkIfPresent) {
                 updated = [...state.favouriteSeries]; 
-            } else updated = [...state.favouriteSeries, action.data];
+            } else updated = [...state.favouriteSeries, recievedSeriesDataToAdd];
             return {
                 ...state,
                 favouriteSeries: updated
             }
         case actionTypes.REMOVE_FROM_FAVOURITES:
-            let updatedAfterFilter: Series[] = state.favouriteSeries.filter(el => el.id !== action.data.id);
+            const recievedFavouriteSeriesData: Series = action.data;
+            let updatedAfterFilter: Series[] = state.favouriteSeries.filter(el => el.id !== recievedFavouriteSeriesData.id);
             return {
                 ...state,
                 favouriteSeries: updatedAfterFilter
