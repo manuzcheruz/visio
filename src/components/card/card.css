@@ -14,6 +14,11 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: transform .5s ease;
+}
+
+.card-wrapper .card-body img:hover {
+    transform: scale(1.05);
 }
 
 .card-wrapper .card-footer {
@@ -47,8 +52,15 @@
 
 .card-wrapper .favourite .icon {
     margin-top: 7px;
-    margin-left: 9px;
     position: absolute;
+}
+
+.card-wrapper .favourite .icon .add {
+    margin-left: 9px;
+}
+
+.card-wrapper .favourite .icon .remove {
+    margin-left: 11px;
 }
 
 .card-wrapper .favourite:hover {

@@ -1,4 +1,5 @@
 import { ChangeEvent, FormEvent, useState } from "react";
+import { SearchIcon } from "../../assets/icons";
 import Series from "../../interfaces/series";
 import Spinner from "../../utils/spinner/spinner";
 import Card from "../card/card";
@@ -51,7 +52,10 @@ function Search() {
         <div>
             <Navbar />
             <form className="search-form" onSubmit={e => onSearchHandler(e)}>
-                <input className="input" type="text" placeholder="search tv series..." value={searchVal} onChange={e => onSearchChange(e)} />
+                <span className="search-icon">
+                    <SearchIcon height='20' />
+                </span>
+                <input className="search-input" type="text" placeholder="search tv series..." value={searchVal} onChange={e => onSearchChange(e)} />
             </form>
             {loading ?
             <Spinner />

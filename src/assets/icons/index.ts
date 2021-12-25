@@ -13,3 +13,7 @@ export {
 export {
     default as Fav
 } from './fav';
+
+export {
+    default as SearchIcon
+} from './search';

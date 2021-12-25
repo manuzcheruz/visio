@@ -34,14 +34,16 @@ function Card(props: any) {
         <div>
             <div className="card-wrapper">
                 <div className="card-body">
-                    <img src={props.image?.medium ? props.image.medium : Default} alt={props.name} />
+                    <Link to={`/series/${props.id}`} onClick={() => selectSeriesHandler(props)}>
+                        <img src={props.image?.medium ? props.image.medium : Default} alt={props.name} />
+                    </Link>
                 </div>
                 <div className="favourite">
                     <div onClick={() => onFavouriteHandler(props)} className="icon">
                         {favourite || props.favourite ?
-                        <Close color='black' height='25' />
+                        <span className="remove"><Close color='black' height='25' /></span>
                         :
-                        <span><Plus color='black' height='25' /></span>
+                        <span className="add"><Plus color='black' height='25' /></span>
                         }
                     </div>
                 </div>
