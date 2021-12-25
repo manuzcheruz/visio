@@ -61,6 +61,22 @@ const reducer = (state = initialStore, action: any) => {
                 ...state,
                 favouriteSeries: updatedAfterFilter
             }
+        case actionTypes.UPDATE_FAVOURITE_SERIES:
+            const updatedFavouriteSeries: Series[] = [];
+            const favouriteSeriesCopy = [...state.favouriteSeries];
+            for (let item of favouriteSeriesCopy) {
+                if (action.data[item.id]) {
+                    let itemCopy = item;
+                    itemCopy.updated = action.data[item.id];
+                    updatedFavouriteSeries.push(itemCopy);
+                } else {
+                    updatedFavouriteSeries.push(item);
+                }
+            }
+            return {
+                ...state,
+                favouriteSeries: updatedFavouriteSeries
+            }
         default:
             return state;
     }

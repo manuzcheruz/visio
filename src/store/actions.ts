@@ -49,3 +49,10 @@ export const removeFavourites = (data: Series) => {
         data: data
     }
 }
+
+export const updateFavourites = (updated: any) => {
+    return {
+        type: actions.UPDATE_FAVOURITE_SERIES,
+        data: updated
+    }
+}

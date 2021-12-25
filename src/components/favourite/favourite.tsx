@@ -1,9 +1,13 @@
+import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+
+import { updateFavourites } from '../../store/actions';
 import Series from '../../interfaces/series';
 import { InitialState } from '../../store/reducers';
 import Card from '../card/card';
 import Navbar from '../navbar/navbar';
 import './favourite.css';
+import Spinner from '../../utils/spinner/spinner';
 
 /**
  * display a list of favourite series
@@ -11,19 +15,59 @@ import './favourite.css';
  * @returns 
  */
 function Favourite(props: any) {
-    const favourite: Series[] = props.favourites;
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
+
+    const { onUpdateFetch } = props
+
+    useEffect(() => {
+        setLoading(true);
+        const url = 'https://api.tvmaze.com/updates/shows';
+        fetch(url)
+            .then(res => {
+                return res.json();
+            })
+            .then((res: any) => {
+                setLoading(false);
+                onUpdateFetch(res);
+            })
+            .catch(err => {
+                setLoading(false);
+                setError(err.message);
+            })
+    }, [onUpdateFetch]);
+
+    const favourites: Series[] = props.favourites;
     return (
         <>
             <Navbar />
-            <div className="fav-wrapper">
-                {favourite.map((el: Series, i: number) => {
-                    return <Card key={i} {...el} favourite />
-                })}
-            </div>
-            { props.favourites.length < 1 && <h4>No favourites yet, go to home or search to add some</h4>}
+            {loading ?
+            <>
+                <Spinner />
+                <h5 style={{color: 'green'}}>Updating favourites</h5>
+            </>
+            :
+            error ?
+            <h5 style={{color: 'red'}}>There was an error: {error}</h5>
+            :
+            <>
+                <div className="fav-wrapper">
+                    {favourites.map((el: Series, i: number) => {
+                        return <Card key={i} {...el} favourite />
+                    })}
+                </div>
+                <>{props.favourites.length < 1 && <h4>No favourites yet, go to home or search to add some</h4>}</>
+            </>
+            }
         </>
     )
 }
+
+const dispatchToReducer = (dispatch: any) => {
+    return {
+        onUpdateFetch: (data: any) => dispatch(updateFavourites(data))
+    }
+} 
 
 const mapStateToProps = (state: InitialState) => {
     return {
@@ -31,4 +75,4 @@ const mapStateToProps = (state: InitialState) => {
     }
 }
 
-export default connect(mapStateToProps)(Favourite);
+export default connect(mapStateToProps, dispatchToReducer)(Favourite);

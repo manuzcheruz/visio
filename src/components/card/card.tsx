@@ -30,6 +30,21 @@ function Card(props: any) {
         props.onSelectSeries(item);
     }
 
+    let timeToShow: string;
+    if (props.updated) {
+        let currentTime = Date.now() / 1000;
+        let difference = currentTime - props.updated;
+        if (difference < 86400) {
+            timeToShow = 'Less than a day ago';
+        } else if (difference < 604800) {
+            timeToShow = 'Less than a week ago';
+        } else if (difference < 2.628e+6) {
+            timeToShow = 'Less than a month ago';
+        } else if (difference < 3.154e+7) {
+            timeToShow = 'Less than a year ago';
+        } else timeToShow = 'Over an year old';
+    } else timeToShow = 'Unupdated!';
+
     return (
         <div>
             <div className="card-wrapper">
@@ -44,7 +59,7 @@ function Card(props: any) {
                         <span className="remove"><Close color='black' height='25' /></span>
                         :
                         <span className="add"><Plus color='black' height='25' /></span>
-                        }
+                    }
                     </div>
                 </div>
                 <div className="card-footer">
@@ -52,6 +67,11 @@ function Card(props: any) {
                         <button>Watch Now</button>
                     </Link>
                 </div>
+                {props.favourite &&
+                    <div className="updated">
+                        <span>update: {timeToShow}</span>
+                    </div>
+                }
             </div>
         </div>
     )

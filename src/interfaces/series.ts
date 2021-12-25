@@ -20,4 +20,5 @@ export default interface Series {
     network: Network;
     premiered: string;
     summary?: string;
+    updated?: number;
 }

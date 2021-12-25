@@ -66,3 +66,15 @@
 .card-wrapper .favourite:hover {
     opacity: 0.8;
 }
+
+.card-wrapper .updated {
+    font-size: 10px;
+    padding: 5px;
+    background-color: grey;
+    border-radius: 4px;
+    position: absolute;
+    z-index: 2;
+    margin-top: -340px;
+    margin-left: 10px;
+    color: wheat;
+}

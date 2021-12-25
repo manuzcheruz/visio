@@ -36,44 +36,62 @@ function Home(props: any) {
     const series: Series[] = props.series;
 
     useEffect(() => {
-        FetchData();
+        const controller = new AbortController();
+        const page = 1;
+        FetchData(page, controller);
     }, []);
  
-    function FetchData(page?: number) {
-        if (page) {
-            setLoadingMore(true)
-        } else setLoading(true);
+    /**
+     * Fetch series data both onload and onLoadMore tasks
+     * @param page 
+     * @param controller 
+     * @returns 
+     */
+    function FetchData(page: number, controller?: AbortController) {
+        if (controller) {
+            setLoading(true);
+        } else {
+            setLoadingMore(true);
+        }
 
-        const url = `https://api.tvmaze.com/shows?page=${page ? page : '1'}`;
-        fetch(url)
+        const url = `https://api.tvmaze.com/shows?page=${page}`;
+        fetch(url, {
+                signal: controller?.signal
+            })
             .then(res => {
                 return res.json();
             })
             .then((res: Series[]) => {
-                if (page) {
+                if (controller) {
+                    let sortedRes = res.sort((a: Series, b: Series) => a.name.localeCompare(b.name));
+                    setLoading(false);
+                    storeSeries(sortedRes);
+                    setSortDirectionAsce(true);
+                } else {
                     const total = [...props.series, ...res];
                     let sortedRes = total.sort((a: Series, b: Series) => a.name.localeCompare(b.name));
                     setLoadingMore(false);
                     storeSeries(sortedRes);
                     setSortDirectionAsce(true);
-                } else {
-                    let sortedRes = res.sort((a: Series, b: Series) => a.name.localeCompare(b.name));
-                    setLoading(false);
-                    storeSeries(sortedRes);
-                    setSortDirectionAsce(true);
                 }
             })
-            .catch((err: ErrorEvent) => {
-                if (page) {
-                    setLoading(false);
-                    setError(err.message);
+            .catch((err: any) => {
+                if (controller) {
+                    if (err.name !== 'AbortError') {
+                        setLoading(false);
+                        setError(err.message);
+                    }
                 } else {
                     setLoadingMore(false);
                     setErrorOnMore(err.message);
                 }
             })
+        if (controller) {
+            return () => {
+                controller.abort();
+            }
+        }
     }
-
 
     const onLoadMore = () => {
         FetchData(pageNum);
