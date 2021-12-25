@@ -74,10 +74,18 @@
     .search-form .search-input {
         width: 300px;
     }
+
+    .search-form .suggestions-wrapper .suggestions {
+        width: 350px;
+    }
 }
 
 @media screen and (min-width: 481px) and (max-width: 768px){
     .search-form .search-input {
         width: 350px;
+    }
+
+    .search-form .suggestions-wrapper .suggestions {
+        width: 400px;
     }
 }

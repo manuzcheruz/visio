@@ -9,6 +9,7 @@ import Series from "../../interfaces/series";
 import Spinner from "../../utils/spinner/spinner";
 import { randomSeries } from "../../store/actions";
 import { InitialState } from "../../store/reducers";
+import { Dispatch } from "redux";
 
 interface Category {
     letter: string;
@@ -136,7 +137,10 @@ function Home(props: any) {
             <Navbar />
             <div className="home-wrapper">
                 {loading ?
-                <Spinner />
+                <>
+                    <Spinner />
+                    <h5 style={{color: 'green'}}>Loading random series</h5>
+                </>
                 :
                 error ?
                 <h5 style={{color: 'red'}}>There was an error fetching the list: {error}</h5>
@@ -189,7 +193,7 @@ const mapStateToProps = (state: InitialState) => {
     }
 }
 
-const dispatchToReducer = (dispatch: any) => {
+const dispatchToReducer = (dispatch: Dispatch) => {
     return {
         onSeriesLoad: (data: Series[]) => dispatch(randomSeries(data))
     }

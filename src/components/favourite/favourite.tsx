@@ -8,6 +8,7 @@ import Card from '../card/card';
 import Navbar from '../navbar/navbar';
 import './favourite.css';
 import Spinner from '../../utils/spinner/spinner';
+import { Dispatch } from 'redux';
 
 /**
  * display a list of favourite series
@@ -63,7 +64,7 @@ function Favourite(props: any) {
     )
 }
 
-const dispatchToReducer = (dispatch: any) => {
+const dispatchToReducer = (dispatch: Dispatch) => {
     return {
         onUpdateFetch: (data: any) => dispatch(updateFavourites(data))
     }

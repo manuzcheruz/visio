@@ -39,6 +39,7 @@ function Search(props: any) {
                 // @ts-ignore
                 setResults(newArr[0]);
                 props.onSaveSearchTerm(searchVal);
+                setSuggestionToggle(false);
             })
             .catch((err: ErrorEvent) => {
                 setLoading(false);
@@ -56,16 +57,17 @@ function Search(props: any) {
     }
 
     const onSuggestionSelect = (term: string) => {
-        setSuggestionToggle(!suggestionToggle);
+        setSuggestionToggle(false);
         setSearchVal(term);
         searchApi();
     }
 
     const suggestion = useRef<HTMLDivElement>(null);
 
-    const onSuggestionToogle = () => {
+    const onSuggestionToggle = () => {
         setSuggestionToggle(!suggestionToggle);
         suggestion?.current?.focus();
+        console.log(suggestion?.current?.focus());
     }
 
     const searchTerms: string[] = props.searchTerms;
@@ -77,7 +79,7 @@ function Search(props: any) {
                 <span className="search-icon">
                     <SearchIcon height='20' color='grey' />
                 </span>
-                <input className="search-input" onClick={onSuggestionToogle} type="text" placeholder="search tv series..." value={searchVal} onChange={e => onSearchChange(e)} />
+                <input className="search-input" onClick={onSuggestionToggle} type="text" placeholder="search tv series..." value={searchVal} onChange={e => onSearchChange(e)} />
                 {suggestionToggle && searchTerms.length ?
                 <div className="suggestions-wrapper" ref={suggestion} tabIndex={0} onBlur={() => setSuggestionToggle(false)}>
                     <div className="suggestions">
@@ -93,7 +95,10 @@ function Search(props: any) {
                 }
             </form>
             {loading ?
-            <Spinner />
+            <>
+                <Spinner />
+                <h5 style={{color: 'green'}}>Looking up {searchVal}</h5>
+            </>
             :
             error ?
             <h5 style={{color: 'red'}}>There was an error with your search: {error}</h5>
