@@ -17,3 +17,7 @@ export {
 export {
     default as SearchIcon
 } from './search';
+
+export {
+    default as Clock
+} from './clock';

@@ -50,9 +50,21 @@ export const removeFavourites = (data: Series) => {
     }
 }
 
+/**
+ * Updates users favourite series
+ * @param updated 
+ * @returns 
+ */
 export const updateFavourites = (updated: any) => {
     return {
         type: actions.UPDATE_FAVOURITE_SERIES,
         data: updated
+    }
+}
+
+export const saveSearchTerm = (term: string) => {
+    return {
+        type: actions.SAVE_SEARCH_TERM,
+        data: term
     }
 }

@@ -6,12 +6,14 @@ export interface InitialState {
     selected: any;
     favouriteSeries: Series[];
     randomSeries: Series[];
+    searchTerms: string[];
 }
 
 const initialStore: InitialState = {
     selected: {},
     favouriteSeries: [],
-    randomSeries: []
+    randomSeries: [],
+    searchTerms: []
 }
 
 /**
@@ -76,6 +78,19 @@ const reducer = (state = initialStore, action: any) => {
             return {
                 ...state,
                 favouriteSeries: updatedFavouriteSeries
+            }
+        case actionTypes.SAVE_SEARCH_TERM:
+            const term: string = action.data;
+            const total = [...state.searchTerms];
+            if (!state.searchTerms.includes(term)) {
+                total.unshift(term);
+            }
+            if (total.length > 4) {
+                total.pop();
+            }
+            return {
+                ...state,
+                searchTerms: total
             }
         default:
             return state;
