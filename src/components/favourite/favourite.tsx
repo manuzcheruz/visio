@@ -49,7 +49,7 @@ function Favourite(props: any) {
             </>
             :
             error ?
-            <h5 style={{color: 'red'}}>There was an error: {error}</h5>
+            <h5 style={{color: 'red'}}>There was an error updating: {error}</h5>
             :
             <>
                 <div className="fav-wrapper">

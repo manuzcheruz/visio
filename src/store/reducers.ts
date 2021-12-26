@@ -65,12 +65,10 @@ const reducer = (state = initialStore, action: any) => {
             }
         case actionTypes.UPDATE_FAVOURITE_SERIES:
             const updatedFavouriteSeries: Series[] = [];
-            const favouriteSeriesCopy = [...state.favouriteSeries];
-            for (let item of favouriteSeriesCopy) {
+            for (let item of state.favouriteSeries) {
                 if (action.data[item.id]) {
-                    let itemCopy = item;
-                    itemCopy.updated = action.data[item.id];
-                    updatedFavouriteSeries.push(itemCopy);
+                    const newItem: Series = Object.assign(item, action.data[item.id]);
+                    updatedFavouriteSeries.push(newItem);
                 } else {
                     updatedFavouriteSeries.push(item);
                 }

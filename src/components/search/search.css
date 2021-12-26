@@ -16,6 +16,7 @@
 
 .search-input:focus, .search-input:hover {
     border: none;
+    outline: none;
     border-radius: 10px;
     box-shadow: 1px 1px 10px 0.1px teal;
 }

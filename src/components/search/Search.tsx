@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useRef, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
@@ -26,9 +26,9 @@ function Search(props: any) {
     /**
      * make a request based on the search input value
      */
-    function searchApi() {
+    function searchApi(search: string) {
         setLoading(true);
-        const url = `https://api.tvmaze.com/search/shows?q=${searchVal}`;
+        const url = `https://api.tvmaze.com/search/shows?q=${search}`;
         fetch(url)
             .then(res => {
                 return res.json();
@@ -39,35 +39,31 @@ function Search(props: any) {
                 // @ts-ignore
                 setResults(newArr[0]);
                 props.onSaveSearchTerm(searchVal);
-                setSuggestionToggle(false);
             })
             .catch((err: ErrorEvent) => {
                 setLoading(false);
                 setError(err.message);
             })
-    }
-
-    const onSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setSearchVal(event.target.value);
-    }
-
-    const onSearchHandler = (event: FormEvent) => {
+        }
+        
+        const onSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
+            setSearchVal(event.target.value);
+        }
+        
+        const onSearchHandler = (event: FormEvent) => {
+        setSuggestionToggle(false);
         event.preventDefault();
-        searchApi();
+        searchApi(searchVal);
     }
 
     const onSuggestionSelect = (term: string) => {
         setSuggestionToggle(false);
         setSearchVal(term);
-        searchApi();
+        searchApi(term);
     }
-
-    const suggestion = useRef<HTMLDivElement>(null);
 
     const onSuggestionToggle = () => {
         setSuggestionToggle(!suggestionToggle);
-        suggestion?.current?.focus();
-        console.log(suggestion?.current?.focus());
     }
 
     const searchTerms: string[] = props.searchTerms;
@@ -81,7 +77,7 @@ function Search(props: any) {
                 </span>
                 <input className="search-input" onClick={onSuggestionToggle} type="text" placeholder="search tv series..." value={searchVal} onChange={e => onSearchChange(e)} />
                 {suggestionToggle && searchTerms.length ?
-                <div className="suggestions-wrapper" ref={suggestion} tabIndex={0} onBlur={() => setSuggestionToggle(false)}>
+                <div className="suggestions-wrapper">
                     <div className="suggestions">
                         <ul>
                             {searchTerms.map((el: string, i: number) => {
