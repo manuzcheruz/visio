@@ -42,7 +42,10 @@ function Favourite(props: any) {
     return (
         <>
             <Navbar />
-            {loading ?
+            {props.favourites.length < 1 ?
+            <h5>No favourites yet, go to home or search to add some</h5>
+            :
+            loading ?
             <>
                 <Spinner />
                 <h5 style={{color: 'green'}}>Updating favourites</h5>
@@ -57,7 +60,6 @@ function Favourite(props: any) {
                         return <Card key={i} {...el} favourite />
                     })}
                 </div>
-                <>{props.favourites.length < 1 && <h4>No favourites yet, go to home or search to add some</h4>}</>
             </>
             }
         </>

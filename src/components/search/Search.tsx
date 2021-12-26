@@ -27,8 +27,8 @@ function Search(props: any) {
      * make a request based on the search input value
      */
     function searchApi(search: string) {
-        if (!search) {
-            setError('Search cannot be empty!');
+        if (search.trim() === '') {
+            alert('Search cannot be empty!');
             return;
         }
         setLoading(true);
