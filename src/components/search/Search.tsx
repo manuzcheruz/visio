@@ -27,6 +27,10 @@ function Search(props: any) {
      * make a request based on the search input value
      */
     function searchApi(search: string) {
+        if (!search) {
+            setError('Search cannot be empty!');
+            return;
+        }
         setLoading(true);
         const url = `https://api.tvmaze.com/search/shows?q=${search}`;
         fetch(url)
@@ -38,22 +42,22 @@ function Search(props: any) {
                 setLoading(false);
                 // @ts-ignore
                 setResults(newArr[0]);
-                props.onSaveSearchTerm(searchVal);
+                props.onSaveSearchTerm(search);
             })
             .catch((err: ErrorEvent) => {
                 setLoading(false);
                 setError(err.message);
             })
-        }
+    }
         
-        const onSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
-            setSearchVal(event.target.value);
-        }
-        
-        const onSearchHandler = (event: FormEvent) => {
+    const onSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setSearchVal(event.target.value);
+    }
+    
+    const onSearchHandler = (event: FormEvent) => {
         setSuggestionToggle(false);
         event.preventDefault();
-        searchApi(searchVal);
+        searchApi(searchVal)
     }
 
     const onSuggestionSelect = (term: string) => {
