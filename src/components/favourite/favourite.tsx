@@ -22,20 +22,27 @@ function Favourite(props: any) {
     const { onUpdateFetch } = props
 
     useEffect(() => {
-        setLoading(true);
-        const url = 'https://api.tvmaze.com/updates/shows';
-        fetch(url)
-            .then(res => {
-                return res.json();
-            })
-            .then((res: any) => {
-                setLoading(false);
-                onUpdateFetch(res);
-            })
-            .catch(err => {
-                setLoading(false);
-                setError(err.message);
-            })
+        let mounted = true;
+        if (mounted) {
+            setLoading(true);
+            const url = 'https://api.tvmaze.com/updates/shows';
+            fetch(url)
+                .then(res => {
+                    return res.json();
+                })
+                .then((res: any) => {
+                    setLoading(false);
+                    onUpdateFetch(res);
+                })
+                .catch(err => {
+                    setLoading(false);
+                    setError(err.message);
+                })
+        }
+
+        return () => {
+            mounted = false;
+        }
     }, [onUpdateFetch]);
 
     const favourites: Series[] = props.favourites;

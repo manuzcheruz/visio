@@ -37,9 +37,12 @@ function Home(props: any) {
     const series: Series[] = props.series;
 
     useEffect(() => {
-        const controller = new AbortController();
+        let mounted = true;
         const page = 1;
-        FetchData(page, controller);
+        if (mounted) FetchData(page);
+        return () => {
+            mounted = false;
+        }
     }, []);
  
     /**
@@ -48,22 +51,20 @@ function Home(props: any) {
      * @param controller 
      * @returns 
      */
-    function FetchData(page: number, controller?: AbortController) {
-        if (controller) {
+    function FetchData(page: number) {
+        if (page === 1) {
             setLoading(true);
         } else {
             setLoadingMore(true);
         }
 
         const url = `https://api.tvmaze.com/shows?page=${page}`;
-        fetch(url, {
-                signal: controller?.signal
-            })
+        fetch(url)
             .then(res => {
                 return res.json();
             })
             .then((res: Series[]) => {
-                if (controller) {
+                if (page === 1) {
                     let sortedRes = res.sort((a: Series, b: Series) => a.name.localeCompare(b.name));
                     setLoading(false);
                     storeSeries(sortedRes);
@@ -76,22 +77,15 @@ function Home(props: any) {
                     setSortDirectionAsce(true);
                 }
             })
-            .catch((err: any) => {
-                if (controller) {
-                    if (err.name !== 'AbortError') {
-                        setLoading(false);
-                        setError(err.message);
-                    }
+            .catch((err: ErrorEvent) => {
+                if (page === 1) {
+                    setLoading(false);
+                    setError(err.message);
                 } else {
                     setLoadingMore(false);
                     setErrorOnMore(err.message);
                 }
             })
-        if (controller) {
-            return () => {
-                controller.abort();
-            }
-        }
     }
 
     const onLoadMore = () => {

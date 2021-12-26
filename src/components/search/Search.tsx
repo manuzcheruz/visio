@@ -22,6 +22,7 @@ function Search(props: any) {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [suggestionToggle, setSuggestionToggle] = useState(false);
+    const suggestionsHeight = 54; //in px
 
     /**
      * make a request based on the search input value
@@ -82,7 +83,7 @@ function Search(props: any) {
                 <input className="search-input" onClick={onSuggestionToggle} type="text" placeholder="search tv series..." value={searchVal} onChange={e => onSearchChange(e)} />
                 {suggestionToggle && searchTerms.length ?
                 <div className="suggestions-wrapper">
-                    <div className="suggestions">
+                    <div className="suggestions" style={{height: `${suggestionsHeight * searchTerms.length}px`}}>
                         <ul>
                             {searchTerms.map((el: string, i: number) => {
                                 return <li onClick={() => onSuggestionSelect(el)} key={i}><span style={{marginRight: '15px', marginTop: '15px'}}><Clock color='grey' height='15' /></span>{el}</li>

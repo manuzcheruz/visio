@@ -53,10 +53,9 @@
 
 .search-form .suggestions-wrapper .suggestions {
     width: 450px;
-    height: 210px;
     background-color: white;
     border-radius: 0 0 10px 10px;
-    box-shadow: 1px 1px 10px 0.1px teal;
+    box-shadow: .5px .5px 5px 0.1px teal;
 }
 
 .results-wrapper {
