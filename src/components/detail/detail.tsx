@@ -1,15 +1,17 @@
 import { connect } from 'react-redux';
+
 import Series from '../../interfaces/series';
 import { InitialState } from '../../store/reducers';
 import Navbar from '../navbar/navbar';
-import './detail.css';
 import Default from '../../assets/images/Default.png';
+import './detail.css';
 
 /**
  * detail page of the series
  * @returns 
  */
 function Detail(props: any) {
+    console.log(props);
     const series: Series = props.series;
     let url = series.image?.original;
     if (!url) url = Default

@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { favourites, removeFavourites, selectedSeries } from '../../store/actions';
+import { Dispatch } from 'redux';
 
-import './card.css';
+import { favourites, removeFavourites, selectedSeries } from '../../store';
 import {Plus, Close} from '../../assets/icons';
-import Default from '../../assets/images/Default.png';
 import Series from '../../interfaces/series';
+import Default from '../../assets/images/Default.png';
+import './card.css';
 
 /**
  * multipurpose card for displaying individual series in any page
@@ -16,41 +17,45 @@ import Series from '../../interfaces/series';
  */
 function Card(props: any) {
     const [favourite, setFavourite] = useState(false);
+    const {id, name, image}: {id: number, name: string, image: {medium: string}} = props;
+    const {addToFavourite, removeFromFavourite} = props;
+
     const onFavouriteHandler = (item: Series) => {
         if (favourite || props.favourite) {
-            props.removeFromFavourite(item);
+            removeFromFavourite(item);
             setFavourite(false);
         } else {
-            props.addToFavourite(item);
+            addToFavourite(item);
             setFavourite(true);
         } 
     }
+
 
     const selectSeriesHandler = (item: Series) => {
         props.onSelectSeries(item);
     }
 
-    let timeToShow: string;
+    let timeToShow = '';
     if (props.updated) {
         let currentTime = Date.now() / 1000;
         let difference = currentTime - props.updated;
         if (difference < 86400) {
-            timeToShow = 'Less than a day ago';
+            timeToShow = 'less than a day ago';
         } else if (difference < 604800) {
-            timeToShow = 'Less than a week ago';
+            timeToShow = 'less than a week ago';
         } else if (difference < 2.628e+6) {
-            timeToShow = 'Less than a month ago';
+            timeToShow = 'less than a month ago';
         } else if (difference < 3.154e+7) {
-            timeToShow = 'Less than a year ago';
-        } else timeToShow = 'Over an year old';
-    } else timeToShow = 'Unupdated!';
+            timeToShow = 'less than a year ago';
+        } else timeToShow = 'over an year ago';
+    }
 
     return (
         <div>
             <div className="card-wrapper">
                 <div className="card-body">
-                    <Link to={`/series/${props.id}`} onClick={() => selectSeriesHandler(props)}>
-                        <img src={props.image?.medium ? props.image.medium : Default} alt={props.name} />
+                    <Link to={`/series/${id}`} onClick={() => selectSeriesHandler(props)}>
+                        <img src={image?.medium ? image.medium : Default} alt={name} />
                     </Link>
                 </div>
                 <div className="favourite">
@@ -63,13 +68,13 @@ function Card(props: any) {
                     </div>
                 </div>
                 <div className="card-footer">
-                    <Link to={`/series/${props.id}`} onClick={() => selectSeriesHandler(props)} >
+                    <Link to={`/series/${id}`} onClick={() => selectSeriesHandler(props)} >
                         <button>Watch Now</button>
                     </Link>
                 </div>
                 {props.favourite &&
                     <div className="updated">
-                        <span>update: {timeToShow}</span>
+                        <span>{timeToShow ? `updated ${timeToShow}` : 'unupdated'}</span>
                     </div>
                 }
             </div>
@@ -77,7 +82,7 @@ function Card(props: any) {
     )
 }
 
-const dispatchToReducer = (dispatch: any) => {
+const dispatchToReducer = (dispatch: Dispatch) => {
     return {
         onSelectSeries: (data: Series) => dispatch(selectedSeries(data)),
         addToFavourite: (item: Series) => dispatch(favourites(item)),

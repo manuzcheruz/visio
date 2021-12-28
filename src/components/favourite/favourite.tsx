@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
-import { updateFavourites } from '../../store/actions';
+import { updateFavourites } from '../../store';
 import Series from '../../interfaces/series';
 import { InitialState } from '../../store/reducers';
 import Card from '../card/card';
 import Navbar from '../navbar/navbar';
-import './favourite.css';
 import Spinner from '../../utils/spinner/spinner';
-import { Dispatch } from 'redux';
+import './favourite.css';
 
 /**
  * display a list of favourite series
@@ -24,6 +24,7 @@ function Favourite(props: any) {
     useEffect(() => {
         let mounted = true;
         if (mounted) {
+            setError('');
             setLoading(true);
             const url = 'https://api.tvmaze.com/updates/shows';
             fetch(url)

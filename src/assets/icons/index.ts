@@ -1,23 +1,23 @@
 export {
-   default as Close
+   Close
 } from './close';
 
 export {
-    default as Menu
+    Menu
 } from './menu';
 
 export {
-    default as Plus
+    Plus
 } from './plus';
 
 export {
-    default as Fav
+    Fav
 } from './fav';
 
 export {
-    default as SearchIcon
+    SearchIcon
 } from './search';
 
 export {
-    default as Clock
+    Clock
 } from './clock';

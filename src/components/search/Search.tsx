@@ -4,7 +4,7 @@ import { Dispatch } from "redux";
 
 import { Clock, SearchIcon } from "../../assets/icons";
 import Series from "../../interfaces/series";
-import { saveSearchTerm } from "../../store/actions";
+import { saveSearchTerm } from "../../store";
 import { InitialState } from "../../store/reducers";
 import Spinner from "../../utils/spinner/spinner";
 import Card from "../card/card";
@@ -32,6 +32,7 @@ function Search(props: any) {
             alert('Search cannot be empty!');
             return;
         }
+        setError('');
         setLoading(true);
         const url = `https://api.tvmaze.com/search/shows?q=${search}`;
         fetch(url)

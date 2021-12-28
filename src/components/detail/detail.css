@@ -64,9 +64,6 @@
 }
 
 @media screen and (min-width: 481px) and (max-width: 768px){
-    /* .thumbnail-card-details {
-        grid-template-columns: 1fr;
-    } */
 
     .thumbnail-card-details h1 {
         font-size: 40px;

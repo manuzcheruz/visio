@@ -62,6 +62,11 @@ export const updateFavourites = (updated: any) => {
     }
 }
 
+/**
+ * saves user search terms so they can resuse them later
+ * @param term 
+ * @returns 
+ */
 export const saveSearchTerm = (term: string) => {
     return {
         type: actions.SAVE_SEARCH_TERM,

@@ -24,7 +24,6 @@
     overflow-y: hidden;
     height: 370px;
     gap: 20px;
-    /* justify-content: space-between; */
 }
 
 .categ::-webkit-scrollbar {

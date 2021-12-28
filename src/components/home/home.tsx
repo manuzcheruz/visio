@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import { connect } from 'react-redux';
+import { Dispatch } from "redux";
 
-import './home.css';
 import Card from "../card/card";
 import { Aux } from '../../hoc/aux';
 import Navbar from "../navbar/navbar";
 import Series from "../../interfaces/series";
 import Spinner from "../../utils/spinner/spinner";
-import { randomSeries } from "../../store/actions";
+import { randomSeries } from "../../store";
 import { InitialState } from "../../store/reducers";
-import { Dispatch } from "redux";
+import './home.css';
 
 interface Category {
     letter: string;
@@ -53,8 +53,10 @@ function Home(props: any) {
      */
     function FetchData(page: number) {
         if (page === 1) {
+            setError('');
             setLoading(true);
         } else {
+            setErrorOnMore('');
             setLoadingMore(true);
         }
 
@@ -167,7 +169,10 @@ function Home(props: any) {
                         </div>  
                     }
                     {loadingMore ?
-                    <Spinner />
+                    <>
+                        <Spinner />
+                        <h5 style={{color: 'green'}}>Loading More Series</h5>
+                    </>
                     :
                     errorOnMore ?
                     <h5 style={{color: 'red'}}>There was an error fetching the list: {error}</h5>
