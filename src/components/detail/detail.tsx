@@ -8,11 +8,11 @@ import './detail.css';
 
 /**
  * detail page of the series
+ * @param props 
  * @returns 
  */
 function Detail(props: any) {
-    console.log(props);
-    const series: Series = props.series;
+    const {series}: {series: Series} = props;
     let url = series.image?.original;
     if (!url) url = Default
     return (
@@ -30,7 +30,6 @@ function Detail(props: any) {
                     <h2>{series.network?.name}</h2>
                     <h2>{series.status}</h2>
                     <h2>{series.premiered}</h2>
-                    {/* <div dangerouslySetInnerHTML={{__html: series.summary.slice(0, 50)}}></div> */}
                 </div>
             </div>
         </>

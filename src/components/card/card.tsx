@@ -9,19 +9,25 @@ import Series from '../../interfaces/series';
 import Default from '../../assets/images/Default.png';
 import './card.css';
 
+interface CardProps {
+    removeFromFavourite: (item: Series) => { type: string; data: Series; };
+    addToFavourite: (item: Series) => { type: string; data: Series; };
+    onSelectSeries: (item: Series) => { type: string; data: Series; };
+    series: Series;
+    favouriteFromComponent?: boolean;
+}
+
 /**
  * multipurpose card for displaying individual series in any page
  * and handles selection, adding and removing from favourites
- * @param props 
+ * @param param0 
  * @returns 
  */
-function Card(props: any) {
+function Card({addToFavourite, removeFromFavourite, onSelectSeries, series, favouriteFromComponent} : CardProps) {
     const [favourite, setFavourite] = useState(false);
-    const {id, name, image}: {id: number, name: string, image: {medium: string}} = props;
-    const {addToFavourite, removeFromFavourite} = props;
 
     const onFavouriteHandler = (item: Series) => {
-        if (favourite || props.favourite) {
+        if (favourite || favouriteFromComponent) {
             removeFromFavourite(item);
             setFavourite(false);
         } else {
@@ -32,13 +38,13 @@ function Card(props: any) {
 
 
     const selectSeriesHandler = (item: Series) => {
-        props.onSelectSeries(item);
+        onSelectSeries(item);
     }
 
     let timeToShow = '';
-    if (props.updated) {
+    if (series.updated) {
         let currentTime = Date.now() / 1000;
-        let difference = currentTime - props.updated;
+        let difference = currentTime - series.updated;
         if (difference < 86400) {
             timeToShow = 'less than a day ago';
         } else if (difference < 604800) {
@@ -54,13 +60,13 @@ function Card(props: any) {
         <div>
             <div className="card-wrapper">
                 <div className="card-body">
-                    <Link to={`/series/${id}`} onClick={() => selectSeriesHandler(props)}>
-                        <img src={image?.medium ? image.medium : Default} alt={name} />
+                    <Link to={`/series/${series.id}`} onClick={() => selectSeriesHandler(series)}>
+                        <img src={series.image?.medium ? series.image.medium : Default} alt={series.name} />
                     </Link>
                 </div>
                 <div className="favourite">
-                    <div onClick={() => onFavouriteHandler(props)} className="icon">
-                        {favourite || props.favourite ?
+                    <div onClick={() => onFavouriteHandler(series)} className="icon">
+                        {favourite || favouriteFromComponent ?
                         <span className="remove"><Close color='black' height='25' /></span>
                         :
                         <span className="add"><Plus color='black' height='25' /></span>
@@ -68,11 +74,11 @@ function Card(props: any) {
                     </div>
                 </div>
                 <div className="card-footer">
-                    <Link to={`/series/${id}`} onClick={() => selectSeriesHandler(props)} >
+                    <Link to={`/series/${series.id}`} onClick={() => selectSeriesHandler(series)} >
                         <button>Watch Now</button>
                     </Link>
                 </div>
-                {props.favourite &&
+                {favouriteFromComponent &&
                     <div className="updated">
                         <span>{timeToShow ? `updated ${timeToShow}` : 'unupdated'}</span>
                     </div>
@@ -84,7 +90,7 @@ function Card(props: any) {
 
 const dispatchToReducer = (dispatch: Dispatch) => {
     return {
-        onSelectSeries: (data: Series) => dispatch(selectedSeries(data)),
+        onSelectSeries: (item: Series) => dispatch(selectedSeries(item)),
         addToFavourite: (item: Series) => dispatch(favourites(item)),
         removeFromFavourite: (item: Series) => dispatch(removeFavourites(item))
     }

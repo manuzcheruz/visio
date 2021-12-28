@@ -1,4 +1,3 @@
-// import { Action } from "redux";
 import Series from '../interfaces/series';
 import * as actionTypes from './actionTypes';
 
@@ -50,7 +49,7 @@ const reducer = (state = initialStore, action: any) => {
             let checkIfPresent = state.favouriteSeries.some(el => el.id === recievedSeriesDataToAdd.id);
             let updated: Series[];
             if (checkIfPresent) {
-                updated = [...state.favouriteSeries]; 
+                updated = [...state.favouriteSeries];
             } else updated = [...state.favouriteSeries, recievedSeriesDataToAdd];
             return {
                 ...state,

@@ -10,16 +10,18 @@ import Navbar from '../navbar/navbar';
 import Spinner from '../../utils/spinner/spinner';
 import './favourite.css';
 
+interface FavouriteProps {
+    onUpdateFetch: (data: any) => { type: string; data: any; };
+    favourites: Series[];
+}
 /**
- * display a list of favourite series
- * @param props 
+ * display a list of favourite series with their updates
+ * @param param0 
  * @returns 
  */
-function Favourite(props: any) {
+function Favourite({onUpdateFetch, favourites} : FavouriteProps) {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
-
-    const { onUpdateFetch } = props
 
     useEffect(() => {
         let mounted = true;
@@ -35,7 +37,7 @@ function Favourite(props: any) {
                     setLoading(false);
                     onUpdateFetch(res);
                 })
-                .catch(err => {
+                .catch((err: ErrorEvent) => {
                     setLoading(false);
                     setError(err.message);
                 })
@@ -46,11 +48,10 @@ function Favourite(props: any) {
         }
     }, [onUpdateFetch]);
 
-    const favourites: Series[] = props.favourites;
     return (
         <>
             <Navbar />
-            {props.favourites.length < 1 ?
+            {favourites.length < 1 ?
             <h5>No favourites yet, go to home or search to add some</h5>
             :
             loading ?
@@ -65,7 +66,7 @@ function Favourite(props: any) {
             <>
                 <div className="fav-wrapper">
                     {favourites.map((el: Series, i: number) => {
-                        return <Card key={i} {...el} favourite />
+                        return <Card key={i} series={el} favouriteFromComponent />
                     })}
                 </div>
             </>

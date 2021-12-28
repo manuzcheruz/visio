@@ -16,25 +16,25 @@ interface Category {
     array: Series[];
 }
 
+interface HomeProps {
+    series: Series[];
+    onSeriesLoad: (data: Series[]) => { type: string; data: Series[]; }
+}
+
 /**
- * Renders a list of the tv series that can be sorted
+ * Renders a list of the tv series that can be sorted and categorized
+ * @param param0 
  * @returns 
  */
-function Home(props: any) {
+function Home({series, onSeriesLoad} : HomeProps) {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
-    const [categories, setCategories] = useState([
-        {letter: '', array: [
-            {id: 0, name: '', image: {original: ''}, status: '', network: {name: ''}, premiered: ''}
-        ]}
-    ]);
+    const [categories, setCategories] = useState<Category[]>([]);
     const [toggleCategories, setToggleCategories] = useState(false);
     const [sortDirectionAsce, setSortDirectionAsce] = useState(false);
     let [pageNum, setPageNum] = useState(2);
     const [loadingMore, setLoadingMore] = useState(false);
     const [errorOnMore, setErrorOnMore] = useState('');
-
-    const series: Series[] = props.series;
 
     useEffect(() => {
         let mounted = true;
@@ -48,7 +48,6 @@ function Home(props: any) {
     /**
      * Fetch series data both onload and onLoadMore tasks
      * @param page 
-     * @param controller 
      * @returns 
      */
     function FetchData(page: number) {
@@ -72,7 +71,7 @@ function Home(props: any) {
                     storeSeries(sortedRes);
                     setSortDirectionAsce(true);
                 } else {
-                    const total = [...props.series, ...res];
+                    const total = [...series, ...res];
                     let sortedRes = total.sort((a: Series, b: Series) => a.name.localeCompare(b.name));
                     setLoadingMore(false);
                     storeSeries(sortedRes);
@@ -96,18 +95,18 @@ function Home(props: any) {
     }
 
     const storeSeries = (data: Series[]) => {
-        props.onSeriesLoad(data);
+        onSeriesLoad(data);
     }
     
     const onSortHandler = () => {
         if (sortDirectionAsce) {
-            let newRes: Series[] = [...props.series];
+            let newRes: Series[] = [...series];
             let sortedRes = newRes.sort((a: Series, b: Series) => b.name.localeCompare(a.name));
-            props.onSeriesLoad(sortedRes);
+            onSeriesLoad(sortedRes);
         } else {
-            let newRes: Series[] = [...props.series];
+            let newRes: Series[] = [...series];
             let sortedRes = newRes.sort((a: Series, b: Series) => a.name.localeCompare(b.name));
-            props.onSeriesLoad(sortedRes);
+            onSeriesLoad(sortedRes);
         }
         setSortDirectionAsce(!sortDirectionAsce);
     }
@@ -148,13 +147,13 @@ function Home(props: any) {
                     </div>
                     {toggleCategories ?
                         <div className="cats">
-                            {categories?.map((el: Category, i: number) => {
+                            {categories.map((el: Category, i: number) => {
                                 return (
                                     <Aux key={i}>
                                         <h1>{el.letter}</h1>
                                         <div className="categ">
-                                            {el.array?.map((item: Series, i: any) => {
-                                                return <Card key={i} {...item} />
+                                            {el.array?.map((item: Series, i) => {
+                                                return <Card key={i} series={item} />
                                             })}
                                         </div>
                                     </Aux>
@@ -164,7 +163,7 @@ function Home(props: any) {
                     :
                         <div className="home-cards">
                             {series?.map((el: Series, i: number) => {
-                                return <Card key={i} {...el} />
+                                return <Card key={i} series={el} />
                             })}
                         </div>  
                     }

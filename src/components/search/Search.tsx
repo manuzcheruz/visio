@@ -12,13 +12,24 @@ import Navbar from "../navbar/navbar";
 
 import './search.css';
 
+interface SearchProps {
+    searchTerms: string[];
+    onSaveSearchTerm: (term: string) => { type: string; data: string; };
+}
+
+interface ResponseData {
+    score: number;
+    show: Series;
+}
+
 /**
- * function to search tv series
+ * function to search tv series and also shows suggestions
+ * @param param0 
  * @returns 
  */
-function Search(props: any) {
+function Search({searchTerms, onSaveSearchTerm}: SearchProps) {
     const [searchVal, setSearchVal] = useState('');
-    const [results, setResults] = useState([]);
+    const [results, setResults] = useState<ResponseData[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [suggestionToggle, setSuggestionToggle] = useState(false);
@@ -39,12 +50,10 @@ function Search(props: any) {
             .then(res => {
                 return res.json();
             })
-            .then(res => {
-                let newArr: Series[] = new Array(res);
+            .then((res: ResponseData[]) => {
                 setLoading(false);
-                // @ts-ignore
-                setResults(newArr[0]);
-                props.onSaveSearchTerm(search);
+                setResults(res);
+                onSaveSearchTerm(search);
             })
             .catch((err: ErrorEvent) => {
                 setLoading(false);
@@ -71,8 +80,6 @@ function Search(props: any) {
     const onSuggestionToggle = () => {
         setSuggestionToggle(!suggestionToggle);
     }
-
-    const searchTerms: string[] = props.searchTerms;
 
     return (
         <div>
@@ -106,8 +113,8 @@ function Search(props: any) {
             <h5 style={{color: 'red'}}>There was an error with your search: {error}</h5>
             :
             <div className="results-wrapper">
-                {results.map((el: {show: Series[]}, i) => {
-                    return <Card key={i} {...el.show} />
+                {results.map((el: {score: number, show: Series}, i) => {
+                    return <Card key={i} series={el.show} />
                 })}
             </div>
             }
