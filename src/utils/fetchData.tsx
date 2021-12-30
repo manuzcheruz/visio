@@ -3,7 +3,7 @@
  * @param url 
  * @returns 
  */
-export default async function FetchAPIData<T>(url: string) {
+export default async function fetchApiData<T>(url: string) {
     let data: T[] = [];
     let error = '';
 

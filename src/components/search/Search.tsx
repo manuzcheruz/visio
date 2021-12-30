@@ -7,7 +7,7 @@ import { SearchResponseData } from "../../interfaces/searchresponseData";
 import Series from "../../interfaces/series";
 import { saveSearchTerm } from "../../store";
 import { InitialState } from "../../store/reducers";
-import FetchAPIData from "../../utils/fetchData";
+import fetchApiData from "../../utils/fetchData";
 import Spinner from "../../utils/spinner/spinner";
 import Card from "../card/card";
 import Navbar from "../navbar/navbar";
@@ -43,7 +43,7 @@ function Search({searchTerms, onSaveSearchTerm}: SearchProps) {
         setResults([]);
         setLoading(true);
         const url = `https://api.tvmaze.com/search/shows?q=${search}`;
-        const { data, error } = await FetchAPIData<SearchResponseData>(url);
+        const { data, error } = await fetchApiData<SearchResponseData>(url);
         setLoading(false);
         if (error) {
             setError(error);

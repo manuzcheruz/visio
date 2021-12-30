@@ -8,7 +8,7 @@ import { InitialState } from '../../store/reducers';
 import Card from '../card/card';
 import Navbar from '../navbar/navbar';
 import Spinner from '../../utils/spinner/spinner';
-import FetchAPIData from '../../utils/fetchData';
+import fetchApiData from '../../utils/fetchData';
 import './favourite.css';
 
 interface FavouriteProps {
@@ -31,7 +31,7 @@ function Favourite({onUpdateFetch, favourites} : FavouriteProps) {
         const url = 'https://api.tvmaze.com/updates/shows';
         if (mounted) {
             (async () => {
-                const { data, error } = await FetchAPIData(url);
+                const { data, error } = await fetchApiData(url);
                 setLoading(false);
                 if (error) {
                     setError(error);

@@ -9,7 +9,7 @@ import Series from "../../interfaces/series";
 import Spinner from "../../utils/spinner/spinner";
 import { randomSeries } from "../../store";
 import { InitialState } from "../../store/reducers";
-import FetchAPIData from "../../utils/fetchData";
+import fetchApiData from "../../utils/fetchData";
 import './home.css';
 
 interface Category {
@@ -44,7 +44,7 @@ function Home({series, onSeriesLoad} : HomeProps) {
         const url = `https://api.tvmaze.com/shows?page=1`;
         if (mounted) {
             (async () => {
-                const { data, error } = await FetchAPIData<Series>(url);
+                const { data, error } = await fetchApiData<Series>(url);
                 setLoading(false);
                 if (error) {
                     setError(error);
@@ -64,7 +64,7 @@ function Home({series, onSeriesLoad} : HomeProps) {
         setLoadingMore(true);
         setErrorOnMore('');
         const url = `https://api.tvmaze.com/shows?page=${pageNum}`
-        const { data, error } = await FetchAPIData<Series>(url);
+        const { data, error } = await fetchApiData<Series>(url);
         setLoadingMore(false);
         if (error) {
             setErrorOnMore(error);
