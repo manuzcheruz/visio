@@ -3,23 +3,19 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
 import { Clock, SearchIcon } from "../../assets/icons";
+import { SearchResponseData } from "../../interfaces/searchresponseData";
 import Series from "../../interfaces/series";
 import { saveSearchTerm } from "../../store";
 import { InitialState } from "../../store/reducers";
+import FetchAPIData from "../../utils/fetchData";
 import Spinner from "../../utils/spinner/spinner";
 import Card from "../card/card";
 import Navbar from "../navbar/navbar";
-
 import './search.css';
 
 interface SearchProps {
     searchTerms: string[];
     onSaveSearchTerm: (term: string) => { type: string; data: string; };
-}
-
-interface ResponseData {
-    score: number;
-    show: Series;
 }
 
 /**
@@ -29,7 +25,7 @@ interface ResponseData {
  */
 function Search({searchTerms, onSaveSearchTerm}: SearchProps) {
     const [searchVal, setSearchVal] = useState('');
-    const [results, setResults] = useState<ResponseData[]>([]);
+    const [results, setResults] = useState<SearchResponseData[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [suggestionToggle, setSuggestionToggle] = useState(false);
@@ -38,29 +34,23 @@ function Search({searchTerms, onSaveSearchTerm}: SearchProps) {
     /**
      * make a request based on the search input value
      */
-    function searchApi(search: string) {
+    async function searchApi(search: string) {
         if (search.trim() === '') {
             alert('Search cannot be empty!');
             return;
         }
         setError('');
+        setResults([]);
         setLoading(true);
         const url = `https://api.tvmaze.com/search/shows?q=${search}`;
-        fetch(url)
-            .then(res => {
-                return res.json();
-            })
-            .then((res: ResponseData[]) => {
-                setLoading(false);
-                setResults(res);
-                onSaveSearchTerm(search);
-            })
-            .catch((err: ErrorEvent) => {
-                setLoading(false);
-                setError(err.message);
-            })
+        const { data, error } = await FetchAPIData<SearchResponseData>(url);
+        setLoading(false);
+        if (data.length) {
+            setResults(data);
+            onSaveSearchTerm(search);
+        } else setError(error);
     }
-        
+
     const onSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
         setSearchVal(event.target.value);
     }

@@ -8,6 +8,7 @@ import { InitialState } from '../../store/reducers';
 import Card from '../card/card';
 import Navbar from '../navbar/navbar';
 import Spinner from '../../utils/spinner/spinner';
+import UseFetchAPIData from '../../utils/fetchData';
 import './favourite.css';
 
 interface FavouriteProps {
@@ -25,22 +26,19 @@ function Favourite({onUpdateFetch, favourites} : FavouriteProps) {
 
     useEffect(() => {
         let mounted = true;
+        setError('');
+        setLoading(true);
+        const url = 'https://api.tvmaze.com/updates/shows';
         if (mounted) {
-            setError('');
-            setLoading(true);
-            const url = 'https://api.tvmaze.com/updates/shows';
-            fetch(url)
-                .then(res => {
-                    return res.json();
-                })
-                .then((res: any) => {
-                    setLoading(false);
-                    onUpdateFetch(res);
-                })
-                .catch((err: ErrorEvent) => {
-                    setLoading(false);
-                    setError(err.message);
-                })
+            (async () => {
+                const { data, error } = await UseFetchAPIData(url);
+                setLoading(false);
+                if (data) {
+                    onUpdateFetch(data);
+                } else {
+                    setError(error);
+                }
+            })();
         }
 
         return () => {

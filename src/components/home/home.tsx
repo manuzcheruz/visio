@@ -9,6 +9,7 @@ import Series from "../../interfaces/series";
 import Spinner from "../../utils/spinner/spinner";
 import { randomSeries } from "../../store";
 import { InitialState } from "../../store/reducers";
+import UseFetchAPIData from "../../utils/fetchData";
 import './home.css';
 
 interface Category {
@@ -38,64 +39,43 @@ function Home({series, onSeriesLoad} : HomeProps) {
 
     useEffect(() => {
         let mounted = true;
-        const page = 1;
-        if (mounted) FetchData(page);
+        setError('');
+        setLoading(true);
+        const url = `https://api.tvmaze.com/shows?page=1`;
+        if (mounted) {
+            (async () => {
+                const { data, error } = await UseFetchAPIData<Series>(url);
+                setLoading(false);
+                if (data.length) {
+                    let sortedRes = data.sort((a: Series, b: Series) => a.name.localeCompare(b.name));
+                    onSeriesLoad(sortedRes);
+                    setSortDirectionAsce(true);
+                } else {
+                    setError(error);
+                }
+            })();
+        };
         return () => {
             mounted = false;
         }
     }, []);
- 
-    /**
-     * Fetch series data both onload and onLoadMore tasks
-     * @param page 
-     * @returns 
-     */
-    function FetchData(page: number) {
-        if (page === 1) {
-            setError('');
-            setLoading(true);
+
+    const onLoadMore = async () => {
+        setLoadingMore(true);
+        setErrorOnMore('');
+        const url = `https://api.tvmaze.com/shows?page=${pageNum}`
+        const { data, error } = await UseFetchAPIData<Series>(url);
+        setLoadingMore(false);
+        if (data.length) {
+            const total = [...series, ...data];
+            let sortedRes = total.sort((a: Series, b: Series) => a.name.localeCompare(b.name));
+            onSeriesLoad(sortedRes);
+            setSortDirectionAsce(true);
         } else {
-            setErrorOnMore('');
-            setLoadingMore(true);
+            setErrorOnMore(error);
         }
 
-        const url = `https://api.tvmaze.com/shows?page=${page}`;
-        fetch(url)
-            .then(res => {
-                return res.json();
-            })
-            .then((res: Series[]) => {
-                if (page === 1) {
-                    let sortedRes = res.sort((a: Series, b: Series) => a.name.localeCompare(b.name));
-                    setLoading(false);
-                    storeSeries(sortedRes);
-                    setSortDirectionAsce(true);
-                } else {
-                    const total = [...series, ...res];
-                    let sortedRes = total.sort((a: Series, b: Series) => a.name.localeCompare(b.name));
-                    setLoadingMore(false);
-                    storeSeries(sortedRes);
-                    setSortDirectionAsce(true);
-                }
-            })
-            .catch((err: ErrorEvent) => {
-                if (page === 1) {
-                    setLoading(false);
-                    setError(err.message);
-                } else {
-                    setLoadingMore(false);
-                    setErrorOnMore(err.message);
-                }
-            })
-    }
-
-    const onLoadMore = () => {
-        FetchData(pageNum);
         setPageNum(pageNum++);
-    }
-
-    const storeSeries = (data: Series[]) => {
-        onSeriesLoad(data);
     }
     
     const onSortHandler = () => {
