@@ -9,7 +9,7 @@ import Series from "../../interfaces/series";
 import Spinner from "../../utils/spinner/spinner";
 import { randomSeries } from "../../store";
 import { InitialState } from "../../store/reducers";
-import UseFetchAPIData from "../../utils/fetchData";
+import FetchAPIData from "../../utils/fetchData";
 import './home.css';
 
 interface Category {
@@ -25,7 +25,7 @@ interface HomeProps {
 /**
  * Renders a list of the tv series that can be sorted and categorized
  * @param param0 
- * @returns 
+ * @returns
  */
 function Home({series, onSeriesLoad} : HomeProps) {
     const [loading, setLoading] = useState(false);
@@ -44,14 +44,14 @@ function Home({series, onSeriesLoad} : HomeProps) {
         const url = `https://api.tvmaze.com/shows?page=1`;
         if (mounted) {
             (async () => {
-                const { data, error } = await UseFetchAPIData<Series>(url);
+                const { data, error } = await FetchAPIData<Series>(url);
                 setLoading(false);
-                if (data.length) {
+                if (error) {
+                    setError(error);
+                } else {
                     let sortedRes = data.sort((a: Series, b: Series) => a.name.localeCompare(b.name));
                     onSeriesLoad(sortedRes);
                     setSortDirectionAsce(true);
-                } else {
-                    setError(error);
                 }
             })();
         };
@@ -64,15 +64,15 @@ function Home({series, onSeriesLoad} : HomeProps) {
         setLoadingMore(true);
         setErrorOnMore('');
         const url = `https://api.tvmaze.com/shows?page=${pageNum}`
-        const { data, error } = await UseFetchAPIData<Series>(url);
+        const { data, error } = await FetchAPIData<Series>(url);
         setLoadingMore(false);
-        if (data.length) {
+        if (error) {
+            setErrorOnMore(error);
+        } else {
             const total = [...series, ...data];
             let sortedRes = total.sort((a: Series, b: Series) => a.name.localeCompare(b.name));
             onSeriesLoad(sortedRes);
             setSortDirectionAsce(true);
-        } else {
-            setErrorOnMore(error);
         }
 
         setPageNum(pageNum++);

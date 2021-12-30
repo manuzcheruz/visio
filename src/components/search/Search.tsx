@@ -45,10 +45,12 @@ function Search({searchTerms, onSaveSearchTerm}: SearchProps) {
         const url = `https://api.tvmaze.com/search/shows?q=${search}`;
         const { data, error } = await FetchAPIData<SearchResponseData>(url);
         setLoading(false);
-        if (data.length) {
+        if (error) {
+            setError(error);
+        } else {
             setResults(data);
             onSaveSearchTerm(search);
-        } else setError(error);
+        }
     }
 
     const onSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
