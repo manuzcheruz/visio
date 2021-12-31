@@ -1,12 +1,7 @@
 .home-cards {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.home-cards::after {
-    content: '';
-    flex: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    justify-items: center;
 }
 
 .cats {

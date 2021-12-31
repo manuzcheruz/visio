@@ -59,15 +59,10 @@
 }
 
 .results-wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    justify-items: center;
     margin-top: 20px;
-}
-
-.results-wrapper::after {
-    content: '';
-    flex: auto;
 }
 
 @media screen and (max-width: 480px){
