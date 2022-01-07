@@ -1,14 +1,45 @@
 import Series from '../interfaces/series';
 import * as actions from './actionTypes';
+import { ActionTypes } from './actionTypes';
+
+interface RandomSeries {
+    type: ActionTypes.RANDOM_TV_SERIES;
+    data: Series[]
+}
+
+interface SaveSearchTerm {
+    type: ActionTypes.SAVE_SEARCH_TERM;
+    data: string;
+}
+
+interface UpdateFavourites {
+    type: ActionTypes.UPDATE_FAVOURITE_SERIES;
+    data: any;
+}
+
+interface AddToFavourites {
+    type: ActionTypes.ADD_TO_FAVOURITES;
+    data: Series;
+}
+
+interface RemoveFromFavourites {
+    type: ActionTypes.REMOVE_FROM_FAVOURITES;
+    data: Series;
+}
+
+interface SelectedSeries {
+    type: ActionTypes.SELECTED_SERIES;
+    data: Series;
+}
 
 /**
  * Adding series to the store 
  * @param data 
  * @returns 
  */
-export const randomSeries = (data: Series[]) => {
+export const randomSeries = (data: Series[]): RandomSeries => {
     return {
-        type: actions.RANDOM_TV_SERIES,
+        type: ActionTypes.RANDOM_TV_SERIES,
         data: data
     }
 }
@@ -19,9 +50,9 @@ export const randomSeries = (data: Series[]) => {
  * @param data 
  * @returns 
  */
-export const selectedSeries = (data: Series) => {
+export const selectedSeries = (data: Series): SelectedSeries => {
     return {
-        type: actions.SELECTED_SERIES,
+        type: ActionTypes.SELECTED_SERIES,
         data: data
     }
 }
@@ -31,9 +62,9 @@ export const selectedSeries = (data: Series) => {
  * @param data 
  * @returns 
  */
-export const favourites = (data: Series) => {
+export const favourites = (data: Series): AddToFavourites => {
     return {
-        type: actions.ADD_TO_FAVOURITES,
+        type: ActionTypes.ADD_TO_FAVOURITES,
         data: data
     }
 }
@@ -43,9 +74,9 @@ export const favourites = (data: Series) => {
  * @param data 
  * @returns 
  */
-export const removeFavourites = (data: Series) => {
+export const removeFavourites = (data: Series): RemoveFromFavourites => {
     return {
-        type: actions.REMOVE_FROM_FAVOURITES,
+        type: ActionTypes.REMOVE_FROM_FAVOURITES,
         data: data
     }
 }
@@ -55,9 +86,9 @@ export const removeFavourites = (data: Series) => {
  * @param updated 
  * @returns 
  */
-export const updateFavourites = (updated: any) => {
+export const updateFavourites = (updated: any): UpdateFavourites => {
     return {
-        type: actions.UPDATE_FAVOURITE_SERIES,
+        type: ActionTypes.UPDATE_FAVOURITE_SERIES,
         data: updated
     }
 }
@@ -67,9 +98,11 @@ export const updateFavourites = (updated: any) => {
  * @param term 
  * @returns 
  */
-export const saveSearchTerm = (term: string) => {
+export const saveSearchTerm = (term: string): SaveSearchTerm => {
     return {
-        type: actions.SAVE_SEARCH_TERM,
+        type: ActionTypes.SAVE_SEARCH_TERM,
         data: term
     }
 }
+
+export type Action = SaveSearchTerm | SelectedSeries | RemoveFromFavourites| AddToFavourites | RandomSeries | UpdateFavourites;

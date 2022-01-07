@@ -1,15 +1,16 @@
 import Series from '../interfaces/series';
-import * as actionTypes from './actionTypes';
+import { Action } from './actions';
+import { ActionTypes } from './actionTypes';
 
 export interface InitialState {
-    selected: any;
+    selected: Series | null;
     favouriteSeries: Series[];
     randomSeries: Series[];
     searchTerms: string[];
 }
 
 const initialStore: InitialState = {
-    selected: {},
+    selected: null,
     favouriteSeries: [],
     randomSeries: [],
     searchTerms: []
@@ -21,12 +22,11 @@ const initialStore: InitialState = {
  * @param action 
  * @returns 
  */
-const reducer = (state = initialStore, action: any) => {
-    const actionType: string = action.type;
-    switch (actionType) {
-        case actionTypes.RANDOM_TV_SERIES:
+const reducer = (state = initialStore, action: Action) => {
+    switch (action.type) {
+        case ActionTypes.RANDOM_TV_SERIES:
             let final: Series[] = [];
-            const recievedData: Series[] = action.data;
+            const recievedData = action.data;
             if (state.favouriteSeries.length) {
                 for (let item of recievedData) {
                     if (!state.favouriteSeries.some(el => el.id === item.id)) {
@@ -38,14 +38,14 @@ const reducer = (state = initialStore, action: any) => {
                 ...state,
                 randomSeries: final
             }
-        case actionTypes.SELECTED_SERIES: 
-            const data: Series = action.data;
+        case ActionTypes.SELECTED_SERIES: 
+            const data = action.data;
             return {
                 ...state,
                 selected: data
             }
-        case actionTypes.ADD_TO_FAVOURITES:
-            const recievedSeriesDataToAdd: Series = action.data;
+        case ActionTypes.ADD_TO_FAVOURITES:
+            const recievedSeriesDataToAdd = action.data;
             let checkIfPresent = state.favouriteSeries.some(el => el.id === recievedSeriesDataToAdd.id);
             let updated: Series[];
             if (checkIfPresent) {
@@ -55,14 +55,14 @@ const reducer = (state = initialStore, action: any) => {
                 ...state,
                 favouriteSeries: updated
             }
-        case actionTypes.REMOVE_FROM_FAVOURITES:
-            const recievedFavouriteSeriesData: Series = action.data;
+        case ActionTypes.REMOVE_FROM_FAVOURITES:
+            const recievedFavouriteSeriesData = action.data;
             let updatedAfterFilter: Series[] = state.favouriteSeries.filter(el => el.id !== recievedFavouriteSeriesData.id);
             return {
                 ...state,
                 favouriteSeries: updatedAfterFilter
             }
-        case actionTypes.UPDATE_FAVOURITE_SERIES:
+        case ActionTypes.UPDATE_FAVOURITE_SERIES:
             const updatedFavouriteSeries: Series[] = [];
             for (let item of state.favouriteSeries) {
                 if (action.data[item.id]) {
@@ -76,8 +76,8 @@ const reducer = (state = initialStore, action: any) => {
                 ...state,
                 favouriteSeries: updatedFavouriteSeries
             }
-        case actionTypes.SAVE_SEARCH_TERM:
-            const term: string = action.data;
+        case ActionTypes.SAVE_SEARCH_TERM:
+            const term = action.data;
             const total = [...state.searchTerms];
             if (!state.searchTerms.includes(term)) {
                 total.unshift(term);
