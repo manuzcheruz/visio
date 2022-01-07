@@ -6,16 +6,17 @@ import { Clock, SearchIcon } from "../../assets/icons";
 import { SearchResponseData } from "../../interfaces/searchresponseData";
 import Series from "../../interfaces/series";
 import { saveSearchTerm } from "../../store";
+import { ActionTypes } from "../../store/actionTypes";
 import { InitialState } from "../../store/reducers";
 import fetchApiData from "../../utils/fetchData";
-import Spinner from "../../utils/spinner/spinner";
+import Spinner from "../spinner/spinner";
 import Card from "../card/card";
 import Navbar from "../navbar/navbar";
 import './search.css';
 
 interface SearchProps {
     searchTerms: string[];
-    onSaveSearchTerm: (term: string) => { type: string; data: string; };
+    onSaveSearchTerm: (term: string) => { type: ActionTypes.SAVE_SEARCH_TERM; data: string; };
 }
 
 /**

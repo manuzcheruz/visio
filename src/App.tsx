@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Home from './components/home/home';
 
 import './App.css';
-import Spinner from './utils/spinner/spinner';
+import Spinner from './components/spinner/spinner';
 const Search = React.lazy(() => import('./components/search/Search'));
 const Detail = React.lazy(() => import('./components/detail/detail'));
 const Favourite = React.lazy(() => import('./components/favourite/favourite'));

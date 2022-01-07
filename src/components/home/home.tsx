@@ -1,15 +1,15 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from 'react-redux';
 import { Dispatch } from "redux";
 
 import Card from "../card/card";
-import { Aux } from '../../hoc/aux';
 import Navbar from "../navbar/navbar";
 import Series from "../../interfaces/series";
-import Spinner from "../../utils/spinner/spinner";
+import Spinner from "../spinner/spinner";
 import { randomSeries } from "../../store";
 import { InitialState } from "../../store/reducers";
 import fetchApiData from "../../utils/fetchData";
+import { ActionTypes } from "../../store/actionTypes";
 import './home.css';
 
 interface Category {
@@ -19,7 +19,7 @@ interface Category {
 
 interface HomeProps {
     series: Series[];
-    onSeriesLoad: (data: Series[]) => { type: string; data: Series[]; }
+    onSeriesLoad: (data: Series[]) => { type: ActionTypes.RANDOM_TV_SERIES; data: Series[]; }
 }
 
 /**
@@ -49,8 +49,8 @@ function Home({series, onSeriesLoad} : HomeProps) {
                 if (error) {
                     setError(error);
                 } else {
-                    let sortedRes = data.sort((a: Series, b: Series) => a.name.localeCompare(b.name));
-                    onSeriesLoad(sortedRes);
+                    let sortedResult = data.sort((seriesA: Series, seriesB: Series) => seriesA.name.localeCompare(seriesB.name));
+                    onSeriesLoad(sortedResult);
                     setSortDirectionAsce(true);
                 }
             })();
@@ -70,8 +70,8 @@ function Home({series, onSeriesLoad} : HomeProps) {
             setErrorOnMore(error);
         } else {
             const total = [...series, ...data];
-            let sortedRes = total.sort((a: Series, b: Series) => a.name.localeCompare(b.name));
-            onSeriesLoad(sortedRes);
+            let sortedResult = total.sort((seriesA: Series, seriesB: Series) => seriesA.name.localeCompare(seriesB.name));
+            onSeriesLoad(sortedResult);
             setSortDirectionAsce(true);
         }
 
@@ -80,13 +80,13 @@ function Home({series, onSeriesLoad} : HomeProps) {
     
     const onSortHandler = () => {
         if (sortDirectionAsce) {
-            let newRes: Series[] = [...series];
-            let sortedRes = newRes.sort((a: Series, b: Series) => b.name.localeCompare(a.name));
-            onSeriesLoad(sortedRes);
+            let newResult: Series[] = [...series];
+            let sortedResult = newResult.sort((seriesA: Series, seriesB: Series) => seriesB.name.localeCompare(seriesA.name));
+            onSeriesLoad(sortedResult);
         } else {
-            let newRes: Series[] = [...series];
-            let sortedRes = newRes.sort((a: Series, b: Series) => a.name.localeCompare(b.name));
-            onSeriesLoad(sortedRes);
+            let newResult: Series[] = [...series];
+            let sortedResult = newResult.sort((seriesA: Series, seriesB: Series) => seriesA.name.localeCompare(seriesB.name));
+            onSeriesLoad(sortedResult);
         }
         setSortDirectionAsce(!sortDirectionAsce);
     }
@@ -100,8 +100,8 @@ function Home({series, onSeriesLoad} : HomeProps) {
         setToggleCategories(true);
         const final: Category[] = [];
         for (let item of alphabet.toUpperCase()) {
-            const res = series.filter((el: Series) => el.name.startsWith(item));
-            if (res.length >= 1) final.push({letter: item, array: res});
+            const result = series.filter((el: Series) => el.name.startsWith(item));
+            if (result.length >= 1) final.push({letter: item, array: result});
         }
 
         setCategories(final);
@@ -129,14 +129,14 @@ function Home({series, onSeriesLoad} : HomeProps) {
                         <div className="cats">
                             {categories.map((el: Category, i: number) => {
                                 return (
-                                    <Aux key={i}>
+                                    <React.Fragment key={i}>
                                         <h1>{el.letter}</h1>
                                         <div className="categ">
                                             {el.array?.map((item: Series, i) => {
                                                 return <Card key={i} series={item} />
                                             })}
                                         </div>
-                                    </Aux>
+                                    </React.Fragment>
                                 )
                             })}
                         </div>

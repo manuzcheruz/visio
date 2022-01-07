@@ -8,11 +8,12 @@ import {Plus, Close} from '../../assets/icons';
 import Series from '../../interfaces/series';
 import Default from '../../assets/images/Default.png';
 import './card.css';
+import { ActionTypes } from '../../store/actionTypes';
 
 interface CardProps {
-    removeFromFavourite: (item: Series) => { type: string; data: Series; };
-    addToFavourite: (item: Series) => { type: string; data: Series; };
-    onSelectSeries: (item: Series) => { type: string; data: Series; };
+    removeFromFavourite: (item: Series) => { type: ActionTypes.REMOVE_FROM_FAVOURITES; data: Series; };
+    addToFavourite: (item: Series) => { type: ActionTypes.ADD_TO_FAVOURITES; data: Series; };
+    onSelectSeries: (item: Series) => { type: ActionTypes.SELECTED_SERIES; data: Series; };
     series: Series;
     favouriteFromComponent?: boolean;
 }

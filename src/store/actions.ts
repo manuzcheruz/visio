@@ -2,32 +2,32 @@ import Series from '../interfaces/series';
 import * as actions from './actionTypes';
 import { ActionTypes } from './actionTypes';
 
-interface RandomSeries {
+export interface RandomSeries {
     type: ActionTypes.RANDOM_TV_SERIES;
     data: Series[]
 }
 
-interface SaveSearchTerm {
+export interface SaveSearchTerm {
     type: ActionTypes.SAVE_SEARCH_TERM;
     data: string;
 }
 
-interface UpdateFavourites {
+export interface UpdateFavourites {
     type: ActionTypes.UPDATE_FAVOURITE_SERIES;
     data: any;
 }
 
-interface AddToFavourites {
+export interface AddToFavourites {
     type: ActionTypes.ADD_TO_FAVOURITES;
     data: Series;
 }
 
-interface RemoveFromFavourites {
+export interface RemoveFromFavourites {
     type: ActionTypes.REMOVE_FROM_FAVOURITES;
     data: Series;
 }
 
-interface SelectedSeries {
+export interface SelectedSeries {
     type: ActionTypes.SELECTED_SERIES;
     data: Series;
 }

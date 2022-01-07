@@ -7,12 +7,13 @@ import Series from '../../interfaces/series';
 import { InitialState } from '../../store/reducers';
 import Card from '../card/card';
 import Navbar from '../navbar/navbar';
-import Spinner from '../../utils/spinner/spinner';
+import Spinner from '../spinner/spinner';
 import fetchApiData from '../../utils/fetchData';
 import './favourite.css';
+import { ActionTypes } from '../../store/actionTypes';
 
 interface FavouriteProps {
-    onUpdateFetch: (data: any) => { type: string; data: any; };
+    onUpdateFetch: (data: any) => { type: ActionTypes.UPDATE_FAVOURITE_SERIES; data: any; };
     favourites: Series[];
 }
 /**
