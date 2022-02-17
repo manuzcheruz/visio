@@ -62,7 +62,7 @@ function Card({addToFavourite, removeFromFavourite, onSelectSeries, series, favo
             <div className="card-wrapper">
                 <div className="card-body">
                     <Link to={`/series/${series.id}`} onClick={() => selectSeriesHandler(series)}>
-                        <img src={series.image?.medium ? series.image.medium : Default} alt={series.name} />
+                        <img id="image" src={series.image?.medium ? series.image.medium : Default} alt={series.name} />
                     </Link>
                 </div>
                 <div className="favourite">

@@ -8,7 +8,7 @@ interface Network {
 }
 
 interface Rating {
-    average: number;
+    average: number | null;
 }
 
 export default interface Series {
