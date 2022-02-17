@@ -44,7 +44,7 @@ function Search({searchTerms, onSaveSearchTerm}: SearchProps) {
         setResults([]);
         setLoading(true);
         const url = `https://api.tvmaze.com/search/shows?q=${search}`;
-        const { data, error } = await fetchApiData<SearchResponseData>(url);
+        const { data, error } = await fetchApiData<SearchResponseData[]>(url);
         setLoading(false);
         if (error) {
             setError(error);

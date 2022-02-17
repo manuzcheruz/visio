@@ -44,7 +44,7 @@ function Home({series, onSeriesLoad} : HomeProps) {
         const url = `https://api.tvmaze.com/shows?page=1`;
         if (mounted) {
             (async () => {
-                const { data, error } = await fetchApiData<Series>(url);
+                const { data, error } = await fetchApiData<Series[]>(url);
                 setLoading(false);
                 if (error) {
                     setError(error);
@@ -64,7 +64,7 @@ function Home({series, onSeriesLoad} : HomeProps) {
         setLoadingMore(true);
         setErrorOnMore('');
         const url = `https://api.tvmaze.com/shows?page=${pageNum}`
-        const { data, error } = await fetchApiData<Series>(url);
+        const { data, error } = await fetchApiData<Series[]>(url);
         setLoadingMore(false);
         if (error) {
             setErrorOnMore(error);

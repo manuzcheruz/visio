@@ -28,11 +28,11 @@ const reducer = (state = initialStore, action: Action) => {
             let final: Series[] = [];
             const recievedData = action.data;
             if (state.favouriteSeries.length) {
-                for (let item of recievedData) {
+                recievedData.map(item => {
                     if (!state.favouriteSeries.some(el => el.id === item.id)) {
-                        final.push(item);
+                        return final.push(item);
                     }
-                }
+                });
             } else final = recievedData;
             return {
                 ...state,
@@ -64,14 +64,15 @@ const reducer = (state = initialStore, action: Action) => {
             }
         case ActionTypes.UPDATE_FAVOURITE_SERIES:
             const updatedFavouriteSeries: Series[] = [];
-            for (let item of state.favouriteSeries) {
+            state.favouriteSeries.map(item => {
+                let updatedItem: Series;
                 if (action.data[item.id]) {
-                    const newItem: Series = Object.assign(item, action.data[item.id]);
-                    updatedFavouriteSeries.push(newItem);
+                    updatedItem = Object.assign(item, action.data[item.id]);
                 } else {
-                    updatedFavouriteSeries.push(item);
+                    updatedItem = item;
                 }
-            }
+                return updatedFavouriteSeries.push(updatedItem);
+            });
             return {
                 ...state,
                 favouriteSeries: updatedFavouriteSeries

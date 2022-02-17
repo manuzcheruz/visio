@@ -1,4 +1,5 @@
 import Series from '../interfaces/series';
+import { UpdatedFavourites } from '../interfaces/updatedFavourites';
 import * as actions from './actionTypes';
 import { ActionTypes } from './actionTypes';
 
@@ -14,7 +15,7 @@ export interface SaveSearchTerm {
 
 export interface UpdateFavourites {
     type: ActionTypes.UPDATE_FAVOURITE_SERIES;
-    data: any;
+    data: UpdatedFavourites;
 }
 
 export interface AddToFavourites {
@@ -86,7 +87,7 @@ export const removeFavourites = (data: Series): RemoveFromFavourites => {
  * @param updated 
  * @returns 
  */
-export const updateFavourites = (updated: any): UpdateFavourites => {
+export const updateFavourites = (updated: UpdatedFavourites): UpdateFavourites => {
     return {
         type: ActionTypes.UPDATE_FAVOURITE_SERIES,
         data: updated

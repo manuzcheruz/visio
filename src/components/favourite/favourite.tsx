@@ -11,11 +11,13 @@ import Spinner from '../spinner/spinner';
 import fetchApiData from '../../utils/fetchData';
 import './favourite.css';
 import { ActionTypes } from '../../store/actionTypes';
+import { UpdatedFavourites } from '../../interfaces/updatedFavourites';
 
 interface FavouriteProps {
-    onUpdateFetch: (data: any) => { type: ActionTypes.UPDATE_FAVOURITE_SERIES; data: any; };
+    onUpdateFetch: (data: UpdatedFavourites) => { type: ActionTypes.UPDATE_FAVOURITE_SERIES; data: UpdatedFavourites; };
     favourites: Series[];
 }
+
 /**
  * display a list of favourite series with their updates
  * @param param0 
@@ -32,7 +34,7 @@ function Favourite({onUpdateFetch, favourites} : FavouriteProps) {
         const url = 'https://api.tvmaze.com/updates/shows';
         if (mounted) {
             (async () => {
-                const { data, error } = await fetchApiData(url);
+                const { data, error } = await fetchApiData<UpdatedFavourites>(url);
                 setLoading(false);
                 if (error) {
                     setError(error);
